@@ -27,9 +27,6 @@ export default defineComponent({
   computed: {
     ...mapState(useBoardsStore, ["boards"]),
   },
-  mounted() {
-    console.log("");
-  },
 });
 </script>
 
