@@ -5,6 +5,7 @@
       class="form__input"
       v-model="boardName"
       placeholder="Заголовок доски"
+      @keydown.enter="addBoard"
     />
     <button class="form__button" @click="addBoard">Создать</button>
   </div>
@@ -28,8 +29,10 @@ export default defineComponent({
   methods: {
     ...mapActions(useBoardsStore, ["addBoardName"]),
     addBoard() {
-      this.addBoardName(this.boardName);
-      this.boardName = "";
+      if (this.boardName.trim()) {
+        this.addBoardName(Date.now(), this.boardName);
+        this.boardName = "";
+      }
     },
   },
 });
