@@ -4,7 +4,8 @@
       class="boards__item"
       v-for="board in boards"
       :key="board.id"
-      :name="board"
+      :name="board.name"
+      :id="board.id"
     ></board-item>
     <board-item-creation></board-item-creation>
   </div>
@@ -25,6 +26,9 @@ export default defineComponent({
   },
   computed: {
     ...mapState(useBoardsStore, ["boards"]),
+  },
+  mounted() {
+    console.log("");
   },
 });
 </script>
