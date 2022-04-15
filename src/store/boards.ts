@@ -2,7 +2,11 @@ import { defineStore } from "pinia";
 
 export const useBoardsStore = defineStore({
   id: "boards",
-  state: () => ({ title: "1st board" }),
+  state: () => ({ boards: [] as string[] }),
   getters: {},
-  actions: {},
+  actions: {
+    addBoardName(name: string) {
+      this.boards.push(name);
+    },
+  },
 });
