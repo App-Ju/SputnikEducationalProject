@@ -1,16 +1,17 @@
 import { defineStore } from "pinia";
+import Board from "@/models/Board.model";
 
 export const useBoardsStore = defineStore({
   id: "boards",
-  state: () => ({ boards: [] as any[] }),
+  state: () => ({ boards: [] as Board[] }),
   getters: {},
   actions: {
     addBoardName(id: number, name: string) {
-      this.boards.push({ id: id, name: name });
+      this.boards.push(new Board(id, name, false));
     },
-    deleteBoard(boardId: number) {
-      console.log(boardId);
-      this.boards = this.boards.filter((el) => el.id !== boardId);
+    deleteBoard(id: number) {
+      const index = this.boards.findIndex((el) => el.id === id);
+      this.boards.splice(index, 1);
     },
   },
 });
