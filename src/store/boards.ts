@@ -13,5 +13,9 @@ export const useBoardsStore = defineStore({
       const index = this.boards.findIndex((el) => el.id === id);
       this.boards.splice(index, 1);
     },
+    editBoardName(id: number, name: string) {
+      const index = this.boards.findIndex((el) => el.id === id);
+      this.boards[index].name = name;
+    },
   },
 });
