@@ -13,7 +13,11 @@
     />
 
     <div class="board__icons">
-      <BootstrapIcon class="board__favorite" icon="star" />
+      <BootstrapIcon
+        class="board__favorite"
+        @click="changeFavoriteBoard(id)"
+        icon="star"
+      />
       <BootstrapIcon
         class="board__edit"
         @click="switchShowInput(id, boardName)"
@@ -51,7 +55,11 @@ export default defineComponent({
     };
   },
   methods: {
-    ...mapActions(useBoardsStore, ["deleteBoard", "editBoardName"]),
+    ...mapActions(useBoardsStore, [
+      "deleteBoard",
+      "editBoardName",
+      "changeFavoriteBoard",
+    ]),
     switchShowInput(id: number, boardName: string) {
       if (!this.showInput) {
         this.showInput = true;
