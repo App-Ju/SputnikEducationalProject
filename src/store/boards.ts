@@ -21,9 +21,7 @@ export const useBoardsStore = defineStore({
     },
     changeFavoriteBoard(id: number) {
       const index = this.boards.findIndex((el) => el.id === id);
-      console.log(this.boards[index].isFavorite);
       this.boards[index].isFavorite = !this.boards[index].isFavorite;
-      console.log(this.boards[index].isFavorite);
     },
   },
 });

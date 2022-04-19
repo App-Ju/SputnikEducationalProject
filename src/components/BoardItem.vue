@@ -1,5 +1,5 @@
 <template>
-  <div class="board">
+  <div class="board" @click="openList(id)">
     <div class="board__name" v-if="!showInput">
       {{ boardName }}
     </div>
@@ -15,17 +15,17 @@
     <div class="board__icons">
       <BootstrapIcon
         class="board__favorite"
-        @click="changeFavoriteBoard(id)"
+        @click.stop="changeFavoriteBoard(id)"
         icon="star"
       />
       <BootstrapIcon
         class="board__edit"
-        @click="switchShowInput(id, boardName)"
+        @click.stop="switchShowInput(id, boardName)"
         icon="pencil"
       />
       <BootstrapIcon
         class="board__delete"
-        @click="deleteBoard(id)"
+        @click.stop="deleteBoard(id)"
         icon="trash3"
       />
     </div>
@@ -77,6 +77,9 @@ export default defineComponent({
     cancelEditingBoard() {
       this.boardName = this.name;
       this.showInput = false;
+    },
+    openList(id: number) {
+      this.$router.push(`/tasks/${id}`);
     },
   },
 });
