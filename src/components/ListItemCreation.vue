@@ -36,9 +36,6 @@ export default defineComponent({
       }
     },
   },
-  mounted() {
-    console.log(this.boardId);
-  },
 });
 </script>
 
