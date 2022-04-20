@@ -1,15 +1,22 @@
 <template>
-  <div class="boards" v-show="favoriteBoards.length">
-    <h1 class="boards__title">Favorite</h1>
-    <board-item
-      class="boards__item"
-      v-for="board in favoriteBoards"
-      :key="board.id"
-      :name="board.name"
-      :id="board.id"
-      :isFavorite="board.isFavorite"
-    ></board-item>
-  </div>
+  <draggable-component
+    class="boards"
+    v-show="isFavoriteBoards.length"
+    v-model="isFavoriteBoards"
+    item-key="id"
+  >
+    <template #header>
+      <h1 class="boards__title">Favorite</h1>
+    </template>
+    <template #item="{ element }">
+      <board-item
+        class="boards__item"
+        :name="element.name"
+        :id="element.id"
+        :isFavorite="element.isFavorite"
+      ></board-item>
+    </template>
+  </draggable-component>
   <draggable-component class="boards" v-model="boards" item-key="id">
     <template #header>
       <h1 class="boards__title">My Boards</h1>
@@ -30,7 +37,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapState } from "pinia";
+import { mapWritableState } from "pinia";
 import { useBoardsStore } from "@/store/boards";
 import BoardItem from "@/components/BoardItem.vue"; // @ is an alias to /src
 import BoardItemCreation from "@/components/BoardItemCreation.vue";
@@ -47,14 +54,9 @@ export default defineComponent({
     return {};
   },
   computed: {
-    ...mapState(useBoardsStore, ["boards", "isFavoriteBoards"]),
-    favoriteBoards: (store) => store.isFavoriteBoards,
+    ...mapWritableState(useBoardsStore, ["boards", "isFavoriteBoards"]),
   },
-  methods: {
-    dragEnd() {
-      console.log(this.boards);
-    },
-  },
+  methods: {},
 });
 </script>
 
