@@ -10,6 +10,7 @@
       v-model="boardName"
       @keydown.enter="editBoard(id, boardName)"
       @keydown.esc="cancelEditingBoard"
+      onclick="event.stopPropagation()"
     />
 
     <div class="board__icons">
@@ -67,7 +68,6 @@ export default defineComponent({
         this.showInput = false;
       } else {
         this.editBoard(id, boardName);
-        this.showInput = false;
       }
     },
     editBoard(id: number, boardName: string) {
