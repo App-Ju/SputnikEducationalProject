@@ -55,11 +55,12 @@ export default defineComponent({
       if (this.listName.trim()) {
         this.listsStore.addListName(this.boardId!, Date.now(), this.listName);
         this.listName = "";
+        this.listsStore.showCurrentBoardStore(this.boardId);
       }
     },
   },
   created() {
-    this.listsStore.changeCurrentBoardStore(this.boardId);
+    this.listsStore.showCurrentBoardStore(this.boardId);
   },
 });
 </script>

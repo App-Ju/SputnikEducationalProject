@@ -1,8 +1,8 @@
 <template>
   <draggable-component
     class="boards"
-    v-show="isFavoriteBoards.length"
-    v-model="isFavoriteBoards"
+    v-show="boardsStore.isFavoriteBoards.length"
+    v-model="boardsStore.isFavoriteBoards"
     item-key="id"
   >
     <template #header>
@@ -13,11 +13,15 @@
         class="boards__item"
         :name="element.name"
         :id="element.id"
-        @delete-board="deleteBoard"
+        @delete-board="boardsStore.deleteBoard"
       ></board-item>
     </template>
   </draggable-component>
-  <draggable-component class="boards" v-model="boards" item-key="id">
+  <draggable-component
+    class="boards"
+    v-model="boardsStore.boards"
+    item-key="id"
+  >
     <template #header>
       <h1 class="boards__title">My Boards</h1>
     </template>
@@ -26,7 +30,7 @@
         class="boards__item"
         :name="element.name"
         :id="element.id"
-        @delete-board="deleteBoard"
+        @delete-board="boardsStore.deleteBoard"
       ></board-item>
     </template>
     <template #footer>
@@ -40,7 +44,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapWritableState, mapActions } from "pinia";
 import { useBoardsStore } from "@/store/boards";
 import BoardItem from "@/components/BoardItem.vue"; // @ is an alias to /src
 import BoardItemCreation from "@/components/BoardItemCreation.vue";
@@ -53,19 +56,19 @@ export default defineComponent({
     BoardItemCreation,
     draggableComponent,
   },
+  setup() {
+    const boardsStore = useBoardsStore();
+    return { boardsStore };
+  },
   data() {
     return {
       boardName: "",
     };
   },
-  computed: {
-    ...mapWritableState(useBoardsStore, ["boards", "isFavoriteBoards"]),
-  },
   methods: {
-    ...mapActions(useBoardsStore, ["deleteBoard", "addBoardName"]),
     addBoard() {
       if (this.boardName.trim()) {
-        this.addBoardName(Date.now(), this.boardName);
+        this.boardsStore.addBoardName(Date.now(), this.boardName);
         this.boardName = "";
       }
     },

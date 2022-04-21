@@ -10,6 +10,7 @@ export const useListsStore = defineStore({
   getters: {},
   actions: {
     addListName(boardId: number, id: number, name: string) {
+      console.log(this.lists);
       this.lists.push(new List(boardId, id, name, []));
     },
     editListName(id: number, name: string) {
@@ -20,7 +21,7 @@ export const useListsStore = defineStore({
       const index = this.lists.findIndex((el) => el.id === id);
       this.lists.splice(index, 1);
     },
-    changeCurrentBoardStore(boardId: number) {
+    showCurrentBoardStore(boardId: number) {
       this.currentBoardLists = this.lists.filter(
         (el) => el.boardId === boardId
       );
