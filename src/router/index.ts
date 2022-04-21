@@ -9,7 +9,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/tasks/:id",
     name: "TasksView",
-    component: () => import("../views/TasksView.vue"),
+    component: () => import("../views/ListAndTaskView.vue"),
   },
 ];
 

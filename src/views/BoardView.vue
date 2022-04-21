@@ -13,7 +13,7 @@
         class="boards__item"
         :name="element.name"
         :id="element.id"
-        :isFavorite="element.isFavorite"
+        @delete-board="deleteBoard"
       ></board-item>
     </template>
   </draggable-component>
@@ -26,18 +26,21 @@
         class="boards__item"
         :name="element.name"
         :id="element.id"
-        :isFavorite="element.isFavorite"
+        @delete-board="deleteBoard"
       ></board-item>
     </template>
     <template #footer>
-      <board-item-creation></board-item-creation>
+      <board-item-creation
+        v-model="boardName"
+        @add-board="addBoard"
+      ></board-item-creation>
     </template>
   </draggable-component>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapWritableState } from "pinia";
+import { mapWritableState, mapActions } from "pinia";
 import { useBoardsStore } from "@/store/boards";
 import BoardItem from "@/components/BoardItem.vue"; // @ is an alias to /src
 import BoardItemCreation from "@/components/BoardItemCreation.vue";
@@ -51,12 +54,22 @@ export default defineComponent({
     draggableComponent,
   },
   data() {
-    return {};
+    return {
+      boardName: "",
+    };
   },
   computed: {
     ...mapWritableState(useBoardsStore, ["boards", "isFavoriteBoards"]),
   },
-  methods: {},
+  methods: {
+    ...mapActions(useBoardsStore, ["deleteBoard", "addBoardName"]),
+    addBoard() {
+      if (this.boardName.trim()) {
+        this.addBoardName(Date.now(), this.boardName);
+        this.boardName = "";
+      }
+    },
+  },
 });
 </script>
 

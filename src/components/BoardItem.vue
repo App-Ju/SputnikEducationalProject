@@ -26,7 +26,7 @@
       />
       <BootstrapIcon
         class="board__delete"
-        @click.stop="deleteBoard(id)"
+        @click.stop="$emit('deleteBoard', id)"
         icon="trash3"
       />
     </div>
@@ -49,6 +49,7 @@ export default defineComponent({
     id: { type: Number, require: true },
     isFavorite: { type: Boolean, require: true },
   },
+  emits: ["deleteBoard"],
   data() {
     return {
       boardName: this.name,
@@ -56,11 +57,7 @@ export default defineComponent({
     };
   },
   methods: {
-    ...mapActions(useBoardsStore, [
-      "deleteBoard",
-      "editBoardName",
-      "addFavoriteBoard",
-    ]),
+    ...mapActions(useBoardsStore, ["editBoardName", "addFavoriteBoard"]),
     switchShowInput(id: number, boardName: string) {
       if (!this.showInput) {
         this.showInput = true;

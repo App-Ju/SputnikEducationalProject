@@ -3,38 +3,22 @@
     <h2 class="form__title">Создать доску</h2>
     <input
       class="form__input"
-      v-model="boardName"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
       placeholder="Заголовок доски"
-      @keydown.enter="addBoard"
+      @keydown.enter="$emit('addBoard')"
     />
-    <button class="form__button" @click="addBoard">Создать</button>
+    <button class="form__button" @click="$emit('addBoard')">Создать</button>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions } from "pinia";
-import { useBoardsStore } from "@/store/boards";
 
 export default defineComponent({
   name: "BoardItemCreation",
-  components: {},
-  props: {},
-  data() {
-    return {
-      boardName: "",
-    };
-  },
-  computed: {},
-  methods: {
-    ...mapActions(useBoardsStore, ["addBoardName"]),
-    addBoard() {
-      if (this.boardName.trim()) {
-        this.addBoardName(Date.now(), this.boardName);
-        this.boardName = "";
-      }
-    },
-  },
+  props: ["modelValue"],
+  emits: ["update:modelValue"],
 });
 </script>
 
