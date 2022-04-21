@@ -1,11 +1,15 @@
 <template>
-  <draggable-component class="lists" v-model="lists" item-key="id">
+  <draggable-component
+    class="lists"
+    v-model="listsStore.currentBoardLists"
+    item-key="id"
+  >
     <template #item="{ element }">
       <list-item
         class="lists__item"
         :name="element.name"
         :id="element.id"
-        @delete-list="deleteList"
+        @delete-list="listsStore.deleteList"
       >
         <div class="lists__tasks">1</div>
         <div class="lists__tasks-creation">2</div>
@@ -22,7 +26,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions, mapState, mapWritableState } from "pinia";
 import { useListsStore } from "@/store/lists";
 import ListItem from "@/components/ListItem.vue";
 import listItemCreation from "@/components/ListItemCreation.vue";
@@ -35,6 +38,10 @@ export default defineComponent({
     listItemCreation,
     draggableComponent,
   },
+  setup() {
+    const listsStore = useListsStore();
+    return { listsStore };
+  },
   props: {},
   data() {
     return {
@@ -42,18 +49,17 @@ export default defineComponent({
       listName: "",
     };
   },
-  computed: {
-    ...mapState(useListsStore, ["currentBoardsList"]),
-    ...mapWritableState(useListsStore, ["lists"]),
-  },
+  computed: {},
   methods: {
-    ...mapActions(useListsStore, ["addListName", "deleteList"]),
     addList() {
       if (this.listName.trim()) {
-        this.addListName(this.boardId!, Date.now(), this.listName);
+        this.listsStore.addListName(this.boardId!, Date.now(), this.listName);
         this.listName = "";
       }
     },
+  },
+  created() {
+    this.listsStore.changeCurrentBoardStore(this.boardId);
   },
 });
 </script>

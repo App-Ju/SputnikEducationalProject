@@ -17,7 +17,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "ListItemCreation",
   props: ["modelValue"],
-  emits: ["update:modelValue"],
+  emits: ["update:modelValue", "addList"],
 });
 </script>
 
