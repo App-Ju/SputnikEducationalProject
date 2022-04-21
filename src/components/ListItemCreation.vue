@@ -2,40 +2,22 @@
   <div class="form">
     <input
       class="form__input"
-      v-model="listName"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
       placeholder="Заголовок списка"
-      @keydown.enter="addList"
+      @keydown.enter="$emit('addList')"
     />
-    <button class="form__button" @click="addList">Создать</button>
+    <button class="form__button" @click="$emit('addList')">Создать</button>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useListsStore } from "@/store/lists";
-import { mapActions } from "pinia";
 
 export default defineComponent({
   name: "ListItemCreation",
-  components: {},
-  props: {
-    boardId: { type: Number, require: true },
-  },
-  data() {
-    return {
-      listName: "",
-    };
-  },
-  computed: {},
-  methods: {
-    ...mapActions(useListsStore, ["addListName"]),
-    addList() {
-      if (this.listName.trim()) {
-        this.addListName(this.boardId!, Date.now(), this.listName);
-        this.listName = "";
-      }
-    },
-  },
+  props: ["modelValue"],
+  emits: ["update:modelValue"],
 });
 </script>
 

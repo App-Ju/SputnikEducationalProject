@@ -10,7 +10,7 @@
       v-model="boardName"
       @keydown.enter="editBoard(id, boardName)"
       @keydown.esc="cancelEditingBoard"
-      onclick="event.stopPropagation()"
+      onclick="stopPropagation()"
     />
 
     <div class="board__icons">

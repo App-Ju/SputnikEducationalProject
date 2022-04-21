@@ -13,6 +13,12 @@
     />
 
     <div class="list__icons">
+      <input
+        class="list__task-name-input"
+        v-model="taskName"
+        placeholder="Заголовок задачи"
+        @keydown.enter="addTask"
+      />
       <BootstrapIcon class="list__edit" icon="plus-square" />
       <BootstrapIcon
         class="list__edit"
@@ -21,7 +27,7 @@
       />
       <BootstrapIcon
         class="list__delete"
-        @click.stop="deleteList(id)"
+        @click.stop="$emit('deleteList', id)"
         icon="trash3"
       />
     </div>
@@ -46,12 +52,13 @@ export default defineComponent({
   data() {
     return {
       listName: this.name,
+      taskName: "",
       showInput: false,
     };
   },
   computed: {},
   methods: {
-    ...mapActions(useListsStore, ["editListName", "deleteList"]),
+    ...mapActions(useListsStore, ["editListName"]),
     switchShowInput(id: number, listName: string) {
       if (!this.showInput) {
         this.showInput = true;
@@ -69,6 +76,9 @@ export default defineComponent({
       this.listName = this.name;
       this.showInput = false;
     },
+    addTask() {
+      console.log("add");
+    },
   },
 });
 </script>
@@ -82,6 +92,9 @@ export default defineComponent({
   background: #e3ded9;
   margin: 1%;
 
+  &__name {
+    margin-bottom: 10px;
+  }
   &__name-input {
     align-self: center;
     width: 80%;
@@ -103,6 +116,22 @@ export default defineComponent({
   &__icons {
     display: flex;
     justify-content: flex-end;
+  }
+
+  &__task-name-input {
+    width: 65%;
+    padding: 3px 6px;
+    border: 1px solid rgba(44, 62, 80, 0.38);
+    border-radius: 3px;
+
+    &:hover {
+      border: 1px solid #e31515;
+    }
+
+    &:focus {
+      outline: none;
+      border: 1px solid #154fe3;
+    }
   }
 
   &__edit {
