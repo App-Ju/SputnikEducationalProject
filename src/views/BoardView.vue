@@ -45,7 +45,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useBoardsStore } from "@/store/boards";
-import BoardItem from "@/components/BoardItem.vue"; // @ is an alias to /src
+import BoardItem from "@/components/BoardItem.vue";
 import BoardItemCreation from "@/components/BoardItemCreation.vue";
 import draggableComponent from "vuedraggable";
 

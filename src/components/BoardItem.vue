@@ -10,13 +10,13 @@
       v-model="boardName"
       @keydown.enter="editBoard(id, boardName)"
       @keydown.esc="cancelEditingBoard"
-      onclick="stopPropagation()"
+      onclick="event.stopPropagation()"
     />
 
     <div class="board__icons">
       <BootstrapIcon
         class="board__favorite"
-        @click.stop="addFavoriteBoard(id)"
+        @click.stop="boardsStore.addFavoriteBoard(id)"
         icon="star"
       />
       <BootstrapIcon
@@ -35,7 +35,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions } from "pinia";
 import { useBoardsStore } from "@/store/boards";
 import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
 
@@ -43,6 +42,10 @@ export default defineComponent({
   name: "BoardItem",
   components: {
     BootstrapIcon,
+  },
+  setup() {
+    const boardsStore = useBoardsStore();
+    return { boardsStore };
   },
   props: {
     name: { type: String, require: true },
@@ -57,7 +60,6 @@ export default defineComponent({
     };
   },
   methods: {
-    ...mapActions(useBoardsStore, ["editBoardName", "addFavoriteBoard"]),
     switchShowInput(id: number, boardName: string) {
       if (!this.showInput) {
         this.showInput = true;
@@ -68,7 +70,7 @@ export default defineComponent({
       }
     },
     editBoard(id: number, boardName: string) {
-      this.editBoardName(id, boardName);
+      this.boardsStore.editBoardName(id, boardName);
       this.showInput = false;
     },
     cancelEditingBoard() {

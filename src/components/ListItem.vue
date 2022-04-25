@@ -37,13 +37,16 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useListsStore } from "@/store/lists";
-import { mapActions } from "pinia";
 import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
 
 export default defineComponent({
   name: "ListItem",
   components: {
     BootstrapIcon,
+  },
+  setup() {
+    const listsStore = useListsStore();
+    return { listsStore };
   },
   props: {
     name: { type: String, require: true },
@@ -58,7 +61,6 @@ export default defineComponent({
   },
   computed: {},
   methods: {
-    ...mapActions(useListsStore, ["editListName"]),
     switchShowInput(id: number, listName: string) {
       if (!this.showInput) {
         this.showInput = true;
@@ -69,7 +71,7 @@ export default defineComponent({
       }
     },
     editList(id: number, listName: string) {
-      this.editListName(id, listName);
+      this.listsStore.editListName(id, listName);
       this.showInput = false;
     },
     cancelEditingList() {
