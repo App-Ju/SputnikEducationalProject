@@ -28,9 +28,10 @@ export default defineComponent({
   justify-content: space-around;
   align-items: center;
   width: 23%;
+  height: min-content;
   background: #e3ded9;
   margin: 1%;
-  padding: 10px;
+  padding: 11px;
 
   &__input {
     width: 80%;

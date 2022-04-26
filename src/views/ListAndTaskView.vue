@@ -9,10 +9,22 @@
         class="lists__item"
         :name="element.name"
         :id="element.id"
-        @delete-list="listsStore.deleteList"
+        @delete-list="deleteList(element.id)"
       >
-        <div class="lists__tasks">1</div>
-        <div class="lists__tasks-creation">2</div>
+        <draggable-component
+          :list="element.tasks"
+          item-key="id"
+          :group="{ name: 'element' }"
+        >
+          <template #item="{ element }">
+            <task-item
+              class="lists__task"
+              :name="element.name"
+              :id="element.id"
+              :list-name="listName"
+            ></task-item>
+          </template>
+        </draggable-component>
       </list-item>
     </template>
     <template #footer>
@@ -28,14 +40,16 @@
 import { defineComponent } from "vue";
 import { useListsStore } from "@/store/lists";
 import ListItem from "@/components/ListItem.vue";
-import listItemCreation from "@/components/ListItemCreation.vue";
+import ListItemCreation from "@/components/ListItemCreation.vue";
+import TaskItem from "@/components/TaskItem.vue";
 import draggableComponent from "vuedraggable";
 
 export default defineComponent({
   name: "TasksView",
   components: {
     ListItem,
-    listItemCreation,
+    ListItemCreation,
+    TaskItem,
     draggableComponent,
   },
   setup() {
@@ -57,6 +71,10 @@ export default defineComponent({
         this.listName = "";
         this.listsStore.showCurrentBoardStore(this.boardId);
       }
+    },
+    deleteList(id: number) {
+      this.listsStore.deleteList(id);
+      this.listsStore.showCurrentBoardStore(this.boardId);
     },
   },
   created() {
