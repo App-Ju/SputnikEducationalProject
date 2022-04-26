@@ -11,7 +11,6 @@ export const useListsStore = defineStore({
   getters: {},
   actions: {
     addListName(boardId: number, id: number, name: string) {
-      console.log(this.lists);
       this.lists.push(new List(boardId, id, name, []));
     },
     editListName(id: number, name: string) {
@@ -27,25 +26,26 @@ export const useListsStore = defineStore({
       this.lists[index].tasks.push(new Task(id, name, ""));
     },
     editTaskName(id: number, name: string) {
-      // this.lists.tasks.find((el) => el.id === id);
-      // let listIndex = null;
-      // for (let i = 0; i < this.lists.length; i++) {
-      //   for (let j = 0; j < this.lists[i].tasks.length; j++) {
-      //     if (this.lists[i].tasks[j].include(id)) {
-      //       console.log(this.lists[i].tasks[j]);
-      //     }
-      //   }
-      // }
-      // const taskIndex = this.lists[listIndex].tasks.findIndex(
-      //   (el) => el.id === id
-      // );
-      // console.log(listIndex, name);
-      // this.lists[listIndex][taskIndex] = name;
+      const index = this.findTask(id);
+      this.lists[index[0]].tasks[index[1]].name = name;
+    },
+    deleteTask(id: number) {
+      const index = this.findTask(id);
+      this.lists[index[0]].tasks.splice(index[1], 1);
     },
     showCurrentBoardStore(boardId: number) {
       this.currentBoardLists = this.lists.filter(
         (el) => el.boardId === boardId
       );
+    },
+    findTask(id: number) {
+      const listIndex = this.lists.findIndex((el) =>
+        el.tasks.find((el) => el.id === id)
+      );
+      const taskIndex = this.lists[listIndex].tasks.findIndex(
+        (el) => el.id === id
+      );
+      return [listIndex, taskIndex];
     },
   },
 });

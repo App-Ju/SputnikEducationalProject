@@ -21,7 +21,7 @@
               class="lists__task"
               :name="element.name"
               :id="element.id"
-              :list-name="listName"
+              @delete-task="listsStore.deleteTask(element.id)"
             ></task-item>
           </template>
         </draggable-component>

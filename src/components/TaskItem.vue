@@ -17,8 +17,11 @@
         @click.stop="switchShowInput(id, taskName)"
         icon="pencil"
       />
-      <BootstrapIcon class="task__delete" icon="trash3" />
-      <!--        @click.stop="$emit('deleteList', id)"-->
+      <BootstrapIcon
+        class="task__delete"
+        @click.stop="$emit('deleteTask', id)"
+        icon="trash3"
+      />
     </div>
   </div>
 </template>
@@ -61,7 +64,7 @@ export default defineComponent({
     editTask(id: number, taskName: string) {
       this.showInput = true;
       this.listsStore.editTaskName(id, taskName);
-      // this.showInput = false;
+      this.showInput = false;
     },
     cancelEditingTask() {
       this.taskName = this.name;
