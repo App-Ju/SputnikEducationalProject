@@ -13,6 +13,7 @@
         class="boards__item"
         :name="element.name"
         :id="element.id"
+        :is-favorite="element.isFavorite"
         @delete-board="boardsStore.deleteBoard"
       />
     </template>
@@ -30,6 +31,7 @@
         class="boards__item"
         :name="element.name"
         :id="element.id"
+        :is-favorite="element.isFavorite"
         @delete-board="boardsStore.deleteBoard"
       />
     </template>

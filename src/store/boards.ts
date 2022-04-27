@@ -25,9 +25,11 @@ export const useBoardsStore = defineStore({
     addFavoriteBoard(id: number): void {
       if (!this.isFavoriteBoards.find((el) => el.id === id)) {
         const index = this.boards.findIndex((el) => el.id === id);
+        this.boards[index].isFavorite = true;
         this.isFavoriteBoards.push(this.boards[index]);
       } else {
         const index = this.isFavoriteBoards.findIndex((el) => el.id === id);
+        this.isFavoriteBoards[index].isFavorite = false;
         this.isFavoriteBoards.splice(index, 1);
       }
     },

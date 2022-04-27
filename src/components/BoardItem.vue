@@ -15,9 +15,16 @@
 
     <div class="board__icons">
       <BootstrapIcon
+        v-if="!isFavorite"
         class="board__favorite"
         @click.stop="boardsStore.addFavoriteBoard(id)"
         icon="star"
+      />
+      <BootstrapIcon
+        v-else
+        class="board__favorite"
+        @click.stop="boardsStore.addFavoriteBoard(id)"
+        icon="star-fill"
       />
       <BootstrapIcon
         class="board__edit"
