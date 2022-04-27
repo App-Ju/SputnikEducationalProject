@@ -79,6 +79,9 @@ export default defineComponent({
   },
   computed: {},
   methods: {
+    /**
+     * Добавляет список в стейт lists
+     */
     addList() {
       if (this.listName.trim()) {
         this.listsStore.addListName(this.boardId!, Date.now(), this.listName);
@@ -86,10 +89,18 @@ export default defineComponent({
         this.listsStore.showCurrentBoardStore(this.boardId);
       }
     },
+    /**
+     * Удаляет список из стейта lists
+     * @param id - id удаляемого списка
+     */
     deleteList(id: number) {
       this.listsStore.deleteList(id);
       this.listsStore.showCurrentBoardStore(this.boardId);
     },
+    /**
+     * Отвечат за отображение модального окна
+     * @param id - id выбранной задачи
+     */
     showModal(id: number) {
       const taskData = this.listsStore.openTask(id);
       this.taskId = id;
@@ -97,6 +108,9 @@ export default defineComponent({
       this.taskDescription = taskData[1];
       (this.$refs.modal as InstanceType<typeof ModalWindow>).show = true;
     },
+    /**
+     * Изменяет данные выбранной задачи
+     */
     editTask() {
       this.listsStore.editTask(
         this.taskId,

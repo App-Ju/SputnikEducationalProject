@@ -66,6 +66,11 @@ export default defineComponent({
   },
   computed: {},
   methods: {
+    /**
+     * Отображает либо скрывает ввод для редактирования имени списка
+     * @param id - id выбранного списка
+     * @param listName - имя выбранного списка
+     */
     switchShowInput(id: number, listName: string): void {
       if (!this.showInput) {
         this.showInput = true;
@@ -75,14 +80,25 @@ export default defineComponent({
         this.editList(id, listName);
       }
     },
+    /**
+     * Изменяет имя выбранного списка
+     * @param id - id выбранного списка
+     * @param listName- имя выбранного списка
+     */
     editList(id: number, listName: string): void {
       this.listsStore.editListName(id, listName);
       this.showInput = false;
     },
+    /**
+     * Отменяет редактирование списка
+     */
     cancelEditingList(): void {
       this.listName = this.name;
       this.showInput = false;
     },
+    /**
+     * Добавляет новую задачу в список
+     */
     addTask(): void {
       if (this.taskName.trim()) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

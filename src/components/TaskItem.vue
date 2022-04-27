@@ -52,6 +52,11 @@ export default defineComponent({
   },
   computed: {},
   methods: {
+    /**
+     * Отображает либо скрывает ввод для редактирования имени задачи
+     * @param id - id выбранной задачи
+     * @param taskName - имя выбранной задачи
+     */
     switchShowInput(id: number, taskName: string): void {
       if (!this.showInput) {
         this.showInput = true;
@@ -61,11 +66,19 @@ export default defineComponent({
         this.editTask(id, taskName);
       }
     },
+    /**
+     * Изменяет имя выбранной задачи
+     * @param id - id выбранной задачи
+     * @param taskName - имя выбранной задачи
+     */
     editTask(id: number, taskName: string): void {
       this.showInput = true;
       this.listsStore.editTaskName(id, taskName);
       this.showInput = false;
     },
+    /**
+     * отменяет редактирование имени задачи
+     */
     cancelEditingTask(): void {
       this.taskName = this.name;
       this.showInput = false;

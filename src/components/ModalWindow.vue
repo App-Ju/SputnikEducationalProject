@@ -23,6 +23,9 @@ export default defineComponent({
   },
   computed: {},
   methods: {
+    /**
+     * Закрывает модальное окно
+     */
     closeModal(): void {
       this.show = false;
     },

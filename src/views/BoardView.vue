@@ -15,6 +15,7 @@
         :id="element.id"
         :is-favorite="element.isFavorite"
         @delete-board="boardsStore.deleteBoard"
+        @add-favorite="boardsStore.addFavoriteBoard"
       />
     </template>
   </draggable-component>
@@ -33,6 +34,7 @@
         :id="element.id"
         :is-favorite="element.isFavorite"
         @delete-board="boardsStore.deleteBoard"
+        @add-favorite="boardsStore.addFavoriteBoard"
       />
     </template>
     <template #footer>
@@ -65,6 +67,9 @@ export default defineComponent({
     };
   },
   methods: {
+    /**
+     * Добавляет новую доску в стейт boards
+     */
     addBoard() {
       if (this.boardName.trim()) {
         this.boardsStore.addBoardName(Date.now(), this.boardName);

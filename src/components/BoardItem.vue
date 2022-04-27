@@ -17,13 +17,13 @@
       <BootstrapIcon
         v-if="!isFavorite"
         class="board__favorite"
-        @click.stop="boardsStore.addFavoriteBoard(id)"
+        @click.stop="$emit('addFavorite', id)"
         icon="star"
       />
       <BootstrapIcon
         v-else
         class="board__favorite"
-        @click.stop="boardsStore.addFavoriteBoard(id)"
+        @click.stop="$emit('addFavorite', id)"
         icon="star-fill"
       />
       <BootstrapIcon
@@ -59,7 +59,7 @@ export default defineComponent({
     id: { type: Number, require: true },
     isFavorite: { type: Boolean, require: true },
   },
-  emits: ["deleteBoard"],
+  emits: ["deleteBoard", "addFavorite"],
   data() {
     return {
       boardName: this.name,
@@ -67,6 +67,11 @@ export default defineComponent({
     };
   },
   methods: {
+    /**
+     * Отображает либо скрывает ввод для редактирования имени доски
+     * @param id - id выбранной доски
+     * @param boardName - имя выбранной доски
+     */
     switchShowInput(id: number, boardName: string): void {
       if (!this.showInput) {
         this.showInput = true;
@@ -76,14 +81,26 @@ export default defineComponent({
         this.editBoard(id, boardName);
       }
     },
+    /**
+     * Изменяет имя выбранной доски
+     * @param id - id выбранной доски
+     * @param boardName - имя выбранной доски
+     */
     editBoard(id: number, boardName: string): void {
       this.boardsStore.editBoardName(id, boardName);
       this.showInput = false;
     },
+    /**
+     * Отменяет редактирование доски
+     */
     cancelEditingBoard(): void {
       this.boardName = this.name;
       this.showInput = false;
     },
+    /**
+     * Открывает страницу со списками задач для выбранной доски
+     * @param id - id выбранной доски
+     */
     openList(id: number): void {
       this.$router.push(`/tasks/${id}`);
     },
