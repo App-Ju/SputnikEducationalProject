@@ -20,6 +20,7 @@
         class="lists__item"
         :name="element.name"
         :id="element.id"
+        @dit-list="editList"
         @delete-list="deleteList(element.id)"
       >
         <draggable-component
@@ -33,6 +34,7 @@
               :name="element.name"
               :id="element.id"
               @click.self="showModal(element.id)"
+              @add-task="addTask"
               @delete-task="listsStore.deleteTask(element.id)"
             />
           </template>
@@ -90,6 +92,14 @@ export default defineComponent({
       }
     },
     /**
+     * Изменяет имя выбранного списка
+     * @param id - id выбранного списка
+     * @param listName- имя выбранного списка
+     */
+    editList(id: number, listName: string): void {
+      this.listsStore.editListName(id, listName);
+    },
+    /**
      * Удаляет список из стейта lists
      * @param id - id удаляемого списка
      */
@@ -98,15 +108,13 @@ export default defineComponent({
       this.listsStore.showCurrentBoardStore(this.boardId);
     },
     /**
-     * Отвечат за отображение модального окна
-     * @param id - id выбранной задачи
+     * Добавляет новую задачу в список
      */
-    showModal(id: number) {
-      const taskData = this.listsStore.openTask(id);
-      this.taskId = id;
-      this.taskName = taskData[0];
-      this.taskDescription = taskData[1];
-      (this.$refs.modal as InstanceType<typeof ModalWindow>).show = true;
+    addTask(id: number): void {
+      if (this.taskName.trim()) {
+        this.listsStore.addTaskName(id, Date.now(), this.taskName);
+        this.taskName = "";
+      }
     },
     /**
      * Изменяет данные выбранной задачи
@@ -119,6 +127,17 @@ export default defineComponent({
       );
       (this.$refs.modal as InstanceType<typeof ModalWindow>).show = false;
       this.$forceUpdate;
+    },
+    /**
+     * Отвечат за отображение модального окна
+     * @param id - id выбранной задачи
+     */
+    showModal(id: number) {
+      const taskData = this.listsStore.openTask(id);
+      this.taskId = id;
+      this.taskName = taskData[0];
+      this.taskDescription = taskData[1];
+      (this.$refs.modal as InstanceType<typeof ModalWindow>).show = true;
     },
   },
   created() {

@@ -16,6 +16,8 @@
         :is-favorite="element.isFavorite"
         @delete-board="boardsStore.deleteBoard"
         @add-favorite="boardsStore.addFavoriteBoard"
+        @open-list="openList"
+        @edit-board="editBoard"
       />
     </template>
   </draggable-component>
@@ -35,6 +37,8 @@
         :is-favorite="element.isFavorite"
         @delete-board="boardsStore.deleteBoard"
         @add-favorite="boardsStore.addFavoriteBoard"
+        @open-list="openList"
+        @edit-board="editBoard"
       />
     </template>
     <template #footer>
@@ -75,6 +79,21 @@ export default defineComponent({
         this.boardsStore.addBoardName(Date.now(), this.boardName);
         this.boardName = "";
       }
+    },
+    /**
+     * Изменяет имя выбранной доски
+     * @param id - id выбранной доски
+     * @param boardName - имя выбранной доски
+     */
+    editBoard(id: number, boardName: string): void {
+      this.boardsStore.editBoardName(id, boardName);
+    },
+    /**
+     * Открывает страницу со списками задач для выбранной доски
+     * @param id - id выбранной доски
+     */
+    openList(id: number): void {
+      this.$router.push(`/tasks/${id}`);
     },
   },
 });

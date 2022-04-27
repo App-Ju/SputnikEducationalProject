@@ -8,13 +8,14 @@
       class="task__name-input"
       v-else
       v-model="taskName"
+      @keydown.enter="switchShowInput"
       @keydown.esc="cancelEditingTask"
     />
 
     <div class="task__icons">
       <BootstrapIcon
         class="task__edit"
-        @click.stop="switchShowInput(id, taskName)"
+        @click.stop="switchShowInput"
         icon="pencil"
       />
       <BootstrapIcon
@@ -63,18 +64,9 @@ export default defineComponent({
       } else if (this.showInput && this.taskName === this.name) {
         this.showInput = false;
       } else {
-        this.editTask(id, taskName);
+        this.$emit("editTask", this.id, this.taskName);
+        this.showInput = false;
       }
-    },
-    /**
-     * Изменяет имя выбранной задачи
-     * @param id - id выбранной задачи
-     * @param taskName - имя выбранной задачи
-     */
-    editTask(id: number, taskName: string): void {
-      this.showInput = true;
-      this.listsStore.editTaskName(id, taskName);
-      this.showInput = false;
     },
     /**
      * отменяет редактирование имени задачи

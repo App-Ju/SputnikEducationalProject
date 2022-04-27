@@ -1,5 +1,5 @@
 <template>
-  <div class="board" @click="openList(id)">
+  <div class="board" @click="$emit('openList', id)">
     <div class="board__name" v-if="!showInput">
       {{ boardName }}
     </div>
@@ -8,7 +8,7 @@
       class="board__name-input"
       v-else
       v-model="boardName"
-      @keydown.enter="editBoard(id, boardName)"
+      @keydown.enter="$emit('editBoard', id, boardName)"
       @keydown.esc="cancelEditingBoard"
       onclick="event.stopPropagation()"
     />
@@ -28,7 +28,7 @@
       />
       <BootstrapIcon
         class="board__edit"
-        @click.stop="switchShowInput(id, boardName)"
+        @click.stop="switchShowInput"
         icon="pencil"
       />
       <BootstrapIcon
@@ -59,7 +59,7 @@ export default defineComponent({
     id: { type: Number, require: true },
     isFavorite: { type: Boolean, require: true },
   },
-  emits: ["deleteBoard", "addFavorite"],
+  emits: ["deleteBoard", "addFavorite", "openList", "editBoard"],
   data() {
     return {
       boardName: this.name,
@@ -69,26 +69,16 @@ export default defineComponent({
   methods: {
     /**
      * Отображает либо скрывает ввод для редактирования имени доски
-     * @param id - id выбранной доски
-     * @param boardName - имя выбранной доски
      */
-    switchShowInput(id: number, boardName: string): void {
+    switchShowInput(): void {
       if (!this.showInput) {
         this.showInput = true;
       } else if (this.showInput && this.boardName === this.name) {
         this.showInput = false;
       } else {
-        this.editBoard(id, boardName);
+        this.$emit("editBoard", this.id, this.boardName);
+        this.showInput = false;
       }
-    },
-    /**
-     * Изменяет имя выбранной доски
-     * @param id - id выбранной доски
-     * @param boardName - имя выбранной доски
-     */
-    editBoard(id: number, boardName: string): void {
-      this.boardsStore.editBoardName(id, boardName);
-      this.showInput = false;
     },
     /**
      * Отменяет редактирование доски
@@ -96,13 +86,6 @@ export default defineComponent({
     cancelEditingBoard(): void {
       this.boardName = this.name;
       this.showInput = false;
-    },
-    /**
-     * Открывает страницу со списками задач для выбранной доски
-     * @param id - id выбранной доски
-     */
-    openList(id: number): void {
-      this.$router.push(`/tasks/${id}`);
     },
   },
 });

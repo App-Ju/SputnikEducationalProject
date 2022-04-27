@@ -8,7 +8,7 @@
       class="list__name-input"
       v-else
       v-model="listName"
-      @keydown.enter="editList(id, listName)"
+      @keydown.enter="switchShowInput"
       @keydown.esc="cancelEditingList"
     />
     <slot />
@@ -26,7 +26,7 @@
       />
       <BootstrapIcon
         class="list__edit"
-        @click.stop="switchShowInput(id, listName)"
+        @click.stop="switchShowInput"
         icon="pencil"
       />
       <BootstrapIcon
@@ -68,26 +68,16 @@ export default defineComponent({
   methods: {
     /**
      * Отображает либо скрывает ввод для редактирования имени списка
-     * @param id - id выбранного списка
-     * @param listName - имя выбранного списка
      */
-    switchShowInput(id: number, listName: string): void {
+    switchShowInput(): void {
       if (!this.showInput) {
         this.showInput = true;
       } else if (this.showInput && this.listName === this.name) {
         this.showInput = false;
       } else {
-        this.editList(id, listName);
+        this.$emit("editList", this.id, this.listName);
+        this.showInput = false;
       }
-    },
-    /**
-     * Изменяет имя выбранного списка
-     * @param id - id выбранного списка
-     * @param listName- имя выбранного списка
-     */
-    editList(id: number, listName: string): void {
-      this.listsStore.editListName(id, listName);
-      this.showInput = false;
     },
     /**
      * Отменяет редактирование списка

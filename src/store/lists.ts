@@ -47,13 +47,15 @@ export const useListsStore = defineStore({
       this.lists[index].tasks.push(new Task(id, name, ""));
     },
     /**
-     * Изменяет параметр name задачи
+     * Изменяет данные задачи, имя и подробное описание
      * @param id - id редактируемой задачи
-     * @param name - новое имя редактируемой задачи
+     * @param name - имя редактируемой задачи
+     * @param description - подробное описание редактируемой задачи
      */
-    editTaskName(id: number, name: string): void {
+    editTask(id: number, name: string, description: string): void {
       const index = this.findTask(id);
       this.lists[index[0]].tasks[index[1]].name = name;
+      this.lists[index[0]].tasks[index[1]].description = description;
     },
     /**
      * Удаляет задачу из массива списка tasks задачу
@@ -73,17 +75,6 @@ export const useListsStore = defineStore({
       const taskName = this.lists[index[0]].tasks[index[1]].name;
       const taskDescription = this.lists[index[0]].tasks[index[1]].description;
       return [taskName, taskDescription];
-    },
-    /**
-     * Изменяет данные задачи, имя и подробное описание
-     * @param id - id редактируемой задачи
-     * @param name - имя редактируемой задачи
-     * @param description - подробное описание редактируемой задачи
-     */
-    editTask(id: number, name: string, description: string): void {
-      const index = this.findTask(id);
-      this.lists[index[0]].tasks[index[1]].name = name;
-      this.lists[index[0]].tasks[index[1]].description = description;
     },
     /**
      * Формирует из спсиков стйет currentBoardLists для выбранной доски
