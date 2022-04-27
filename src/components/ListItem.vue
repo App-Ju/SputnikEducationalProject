@@ -66,7 +66,7 @@ export default defineComponent({
   },
   computed: {},
   methods: {
-    switchShowInput(id: number, listName: string) {
+    switchShowInput(id: number, listName: string): void {
       if (!this.showInput) {
         this.showInput = true;
       } else if (this.showInput && this.listName === this.name) {
@@ -75,15 +75,15 @@ export default defineComponent({
         this.editList(id, listName);
       }
     },
-    editList(id: number, listName: string) {
+    editList(id: number, listName: string): void {
       this.listsStore.editListName(id, listName);
       this.showInput = false;
     },
-    cancelEditingList() {
+    cancelEditingList(): void {
       this.listName = this.name;
       this.showInput = false;
     },
-    addTask() {
+    addTask(): void {
       if (this.taskName.trim()) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.listsStore.addTaskName(this.id!, Date.now(), this.taskName);

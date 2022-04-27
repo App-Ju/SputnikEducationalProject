@@ -9,20 +9,20 @@ export const useBoardsStore = defineStore({
   }),
   getters: {},
   actions: {
-    addBoardName(id: number, name: string) {
+    addBoardName(id: number, name: string): void {
       this.boards.push(new Board(id, name, false));
     },
-    deleteBoard(id: number) {
+    deleteBoard(id: number): void {
       const index = this.boards.findIndex((el) => el.id === id);
       const indexFav = this.isFavoriteBoards.findIndex((el) => el.id === id);
       this.boards.splice(index, 1);
       if (indexFav !== -1) this.isFavoriteBoards.splice(indexFav, 1);
     },
-    editBoardName(id: number, name: string) {
+    editBoardName(id: number, name: string): void {
       const index = this.boards.findIndex((el) => el.id === id);
       this.boards[index].name = name;
     },
-    addFavoriteBoard(id: number) {
+    addFavoriteBoard(id: number): void {
       if (!this.isFavoriteBoards.find((el) => el.id === id)) {
         const index = this.boards.findIndex((el) => el.id === id);
         this.isFavoriteBoards.push(this.boards[index]);

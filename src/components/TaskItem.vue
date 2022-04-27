@@ -52,7 +52,7 @@ export default defineComponent({
   },
   computed: {},
   methods: {
-    switchShowInput(id: number, taskName: string) {
+    switchShowInput(id: number, taskName: string): void {
       if (!this.showInput) {
         this.showInput = true;
       } else if (this.showInput && this.taskName === this.name) {
@@ -61,12 +61,12 @@ export default defineComponent({
         this.editTask(id, taskName);
       }
     },
-    editTask(id: number, taskName: string) {
+    editTask(id: number, taskName: string): void {
       this.showInput = true;
       this.listsStore.editTaskName(id, taskName);
       this.showInput = false;
     },
-    cancelEditingTask() {
+    cancelEditingTask(): void {
       this.taskName = this.name;
       this.showInput = false;
     },

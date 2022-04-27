@@ -23,7 +23,7 @@ export default defineComponent({
   },
   computed: {},
   methods: {
-    closeModal() {
+    closeModal(): void {
       this.show = false;
     },
   },

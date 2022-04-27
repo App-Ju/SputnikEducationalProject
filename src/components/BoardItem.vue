@@ -60,7 +60,7 @@ export default defineComponent({
     };
   },
   methods: {
-    switchShowInput(id: number, boardName: string) {
+    switchShowInput(id: number, boardName: string): void {
       if (!this.showInput) {
         this.showInput = true;
       } else if (this.showInput && this.boardName === this.name) {
@@ -69,15 +69,15 @@ export default defineComponent({
         this.editBoard(id, boardName);
       }
     },
-    editBoard(id: number, boardName: string) {
+    editBoard(id: number, boardName: string): void {
       this.boardsStore.editBoardName(id, boardName);
       this.showInput = false;
     },
-    cancelEditingBoard() {
+    cancelEditingBoard(): void {
       this.boardName = this.name;
       this.showInput = false;
     },
-    openList(id: number) {
+    openList(id: number): void {
       this.$router.push(`/tasks/${id}`);
     },
   },
