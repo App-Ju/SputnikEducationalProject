@@ -95,34 +95,19 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/css/mixins";
+
 .list {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 23%;
-  height: min-content;
-  background: #e3ded9;
-  margin: 1%;
+  @include items-wrapper(min-content);
 
   &__name {
     margin-bottom: 10px;
   }
+
   &__name-input {
+    @include items-input(80%);
     align-self: center;
-    width: 80%;
     margin: 0 3px;
-    padding: 3px 6px;
-    border: 1px solid rgba(44, 62, 80, 0.38);
-    border-radius: 3px;
-
-    &:hover {
-      border: 1px solid #e31515;
-    }
-
-    &:focus {
-      outline: none;
-      border: 1px solid #154fe3;
-    }
   }
 
   &__icons {
@@ -132,39 +117,15 @@ export default defineComponent({
   }
 
   &__task-name-input {
-    width: 65%;
-    padding: 3px 6px;
-    border: 1px solid rgba(44, 62, 80, 0.38);
-    border-radius: 3px;
-
-    &:hover {
-      border: 1px solid #e31515;
-    }
-
-    &:focus {
-      outline: none;
-      border: 1px solid #154fe3;
-    }
+    @include items-input(65%);
   }
 
   &__edit {
-    height: 20px;
-    width: 30px;
-    fill: #000;
-
-    &:hover {
-      fill: #155de3;
-    }
+    @include items-edit-btn(20px, 30px);
   }
 
   &__delete {
-    height: 20px;
-    width: 20px;
-    fill: #000;
-
-    &:hover {
-      fill: #e31515;
-    }
+    @include items-edit-btn(20px, 20px);
   }
 }
 </style>

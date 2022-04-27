@@ -6,6 +6,9 @@
 </template>
 
 <style lang="scss">
+@import "assets/css/normalize.css";
+@import "assets/css/mixins";
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
