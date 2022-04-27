@@ -33,6 +33,17 @@ export const useListsStore = defineStore({
       const index = this.findTask(id);
       this.lists[index[0]].tasks.splice(index[1], 1);
     },
+    openTask(id: number) {
+      const index = this.findTask(id);
+      const taskName = this.lists[index[0]].tasks[index[1]].name;
+      const taskDescription = this.lists[index[0]].tasks[index[1]].description;
+      return [taskName, taskDescription];
+    },
+    editTask(id: number, name: string, description: string) {
+      const index = this.findTask(id);
+      this.lists[index[0]].tasks[index[1]].name = name;
+      this.lists[index[0]].tasks[index[1]].description = description;
+    },
     showCurrentBoardStore(boardId: number) {
       this.currentBoardLists = this.lists.filter(
         (el) => el.boardId === boardId

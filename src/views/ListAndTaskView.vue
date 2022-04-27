@@ -1,4 +1,15 @@
 <template>
+  <modal-window ref="modal">
+    <template v-slot:name>
+      <input type="text" class="modal__name" v-model="taskName" />
+    </template>
+    <template v-slot:description>
+      <textarea class="modal__description" v-model="taskDescription" />
+    </template>
+    <template v-slot:footer>
+      <button class="modal__footer-button" @click="editTask">Ok</button>
+    </template>
+  </modal-window>
   <draggable-component
     class="lists"
     v-model="listsStore.currentBoardLists"
@@ -21,6 +32,7 @@
               class="lists__task"
               :name="element.name"
               :id="element.id"
+              @click.self="showModal(element.id)"
               @delete-task="listsStore.deleteTask(element.id)"
             ></task-item>
           </template>
@@ -42,6 +54,7 @@ import { useListsStore } from "@/store/lists";
 import ListItem from "@/components/ListItem.vue";
 import ListItemCreation from "@/components/ListItemCreation.vue";
 import TaskItem from "@/components/TaskItem.vue";
+import ModalWindow from "@/components/ModalWindow.vue";
 import draggableComponent from "vuedraggable";
 
 export default defineComponent({
@@ -50,6 +63,7 @@ export default defineComponent({
     ListItem,
     ListItemCreation,
     TaskItem,
+    ModalWindow,
     draggableComponent,
   },
   setup() {
@@ -61,6 +75,9 @@ export default defineComponent({
     return {
       boardId: Number(this.$route.params.id),
       listName: "",
+      taskId: NaN,
+      taskName: "",
+      taskDescription: "",
     };
   },
   computed: {},
@@ -75,6 +92,22 @@ export default defineComponent({
     deleteList(id: number) {
       this.listsStore.deleteList(id);
       this.listsStore.showCurrentBoardStore(this.boardId);
+    },
+    showModal(id: number) {
+      const taskData = this.listsStore.openTask(id);
+      this.taskId = id;
+      this.taskName = taskData[0];
+      this.taskDescription = taskData[1];
+      (this.$refs.modal as InstanceType<typeof ModalWindow>).show = true;
+    },
+    editTask() {
+      this.listsStore.editTask(
+        this.taskId,
+        this.taskName,
+        this.taskDescription
+      );
+      (this.$refs.modal as InstanceType<typeof ModalWindow>).show = false;
+      this.$forceUpdate;
     },
   },
   created() {
@@ -92,6 +125,41 @@ export default defineComponent({
 
   &__item {
     padding: 1%;
+  }
+}
+
+.modal__name {
+  width: 80%;
+  padding: 3px 6px;
+  border: 1px solid rgba(44, 62, 80, 0.38);
+  border-radius: 3px;
+  align-self: center;
+  margin-bottom: 20px;
+  outline: none;
+}
+
+.modal__description {
+  width: 80%;
+  padding: 3px 6px;
+  border: 1px solid rgba(44, 62, 80, 0.38);
+  border-radius: 3px;
+  align-self: center;
+  margin-bottom: 20px;
+  outline: none;
+  height: 200px;
+  resize: none;
+}
+
+.modal__footer-button {
+  align-self: center;
+  width: 30%;
+  height: 20px;
+  border: 1px solid rgba(44, 62, 80, 0.38);
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background: #e8e5e1;
   }
 }
 </style>
