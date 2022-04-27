@@ -2,9 +2,9 @@
   <div v-show="show" class="modal__cloak" @click.self="closeModal">
     <div class="modal">
       <div class="modal__close" @click="closeModal">&#10006;</div>
-      <slot name="name"> </slot>
-      <slot name="description"> </slot>
-      <slot name="footer"> </slot>
+      <slot name="name" />
+      <slot name="description" />
+      <slot name="footer" />
     </div>
   </div>
 </template>
@@ -71,31 +71,5 @@ export default defineComponent({
       color: #e31515;
     }
   }
-
-  //&__name {
-  //  width: 80%;
-  //  background: #e31515;
-  //  margin-bottom: 20px;
-  //  outline: none;
-  //  //color: #0971c7;
-  //}
-  //
-  //&__description {
-  //  margin-bottom: 20px;
-  //}
-  //
-  //&__footer {
-  //  &-button {
-  //    width: 30%;
-  //    height: 20px;
-  //    border: 1px solid rgba(44, 62, 80, 0.38);
-  //    border-radius: 3px;
-  //    cursor: pointer;
-  //
-  //    &:hover {
-  //      background: #e8e5e1;
-  //    }
-  //  }
-  //}
 }
 </style>

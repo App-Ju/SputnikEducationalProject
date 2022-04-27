@@ -11,7 +11,7 @@
       @keydown.enter="editList(id, listName)"
       @keydown.esc="cancelEditingList"
     />
-    <slot></slot>
+    <slot />
     <div class="list__icons">
       <input
         class="list__task-name-input"

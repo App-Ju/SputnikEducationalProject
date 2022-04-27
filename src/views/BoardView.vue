@@ -14,7 +14,7 @@
         :name="element.name"
         :id="element.id"
         @delete-board="boardsStore.deleteBoard"
-      ></board-item>
+      />
     </template>
   </draggable-component>
   <draggable-component
@@ -31,13 +31,10 @@
         :name="element.name"
         :id="element.id"
         @delete-board="boardsStore.deleteBoard"
-      ></board-item>
+      />
     </template>
     <template #footer>
-      <board-item-creation
-        v-model="boardName"
-        @add-board="addBoard"
-      ></board-item-creation>
+      <board-item-creation v-model="boardName" @add-board="addBoard" />
     </template>
   </draggable-component>
 </template>

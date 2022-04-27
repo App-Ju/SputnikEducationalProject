@@ -34,16 +34,13 @@
               :id="element.id"
               @click.self="showModal(element.id)"
               @delete-task="listsStore.deleteTask(element.id)"
-            ></task-item>
+            />
           </template>
         </draggable-component>
       </list-item>
     </template>
     <template #footer>
-      <list-item-creation
-        v-model="listName"
-        @add-list="addList"
-      ></list-item-creation>
+      <list-item-creation v-model="listName" @add-list="addList" />
     </template>
   </draggable-component>
 </template>
