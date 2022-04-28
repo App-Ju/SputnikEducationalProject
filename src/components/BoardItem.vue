@@ -109,21 +109,15 @@ export default defineComponent({
   }
 
   &__favorite {
-    height: 20px;
-    width: 30px;
-    fill: #000;
-
-    &:hover {
-      fill: #e5aa2a;
-    }
+    @include items-icon-btn(20px, 30px, #e5aa2a);
   }
 
   &__edit {
-    @include items-edit-btn(20px, 30px);
+    @include items-icon-btn(20px, 30px, #155de3);
   }
 
   &__delete {
-    @include items-edit-btn(20px, 20px);
+    @include items-icon-btn(20px, 20px, #e31515);
   }
 }
 </style>

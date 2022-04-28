@@ -35,23 +35,13 @@
   }
 }
 
-@mixin items-edit-btn($h-size, $w-size) {
+@mixin items-icon-btn($h-size, $w-size, $hover-color) {
   height: $h-size;
   width: $w-size;
   fill: #000;
 
   &:hover {
-    fill: #155de3;
-  }
-}
-
-@mixin items-delete-btn($h-size, $w-size) {
-  height: $h-size;
-  width: $w-size;
-  fill: #000;
-
-  &:hover {
-    fill: #e31515;
+    fill: $hover-color;
   }
 
 }

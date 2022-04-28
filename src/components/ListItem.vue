@@ -127,11 +127,11 @@ export default defineComponent({
   }
 
   &__edit {
-    @include items-edit-btn(20px, 30px);
+    @include items-icon-btn(20px, 30px, #155de3);
   }
 
   &__delete {
-    @include items-edit-btn(20px, 20px);
+    @include items-icon-btn(20px, 20px, #e31515);
   }
 }
 </style>
