@@ -1,9 +1,19 @@
 <template>
   <draggable-component
     class="boards"
+    :component-data="{
+      tag: 'div',
+      type: 'transition-group',
+      name: !drag ? 'flip-list' : null,
+      appear: true,
+    }"
     v-show="boardsStore.isFavoriteBoards.length"
     v-model="boardsStore.isFavoriteBoards"
+    v-bind="dragOptions"
+    @start="drag = true"
+    @end="drag = false"
     item-key="id"
+    :group="{ name: 'favorite' }"
   >
     <template #header>
       <h1 class="boards__title">Favorite</h1>
@@ -23,8 +33,18 @@
   </draggable-component>
   <draggable-component
     class="boards"
+    :component-data="{
+      tag: 'div',
+      type: 'transition-group',
+      name: !drag ? 'flip-list' : null,
+      appear: true,
+    }"
     v-model="boardsStore.boards"
+    v-bind="dragOptions"
+    @start="drag = true"
+    @end="drag = false"
     item-key="id"
+    :group="{ name: 'main' }"
   >
     <template #header>
       <h1 class="boards__title">My Boards</h1>
@@ -56,6 +76,7 @@ import draggableComponent from "vuedraggable";
 
 export default defineComponent({
   name: "BoardsView",
+  display: "Transitions",
   components: {
     BoardItem,
     BoardItemCreation,
@@ -68,7 +89,18 @@ export default defineComponent({
   data() {
     return {
       boardName: "",
+      drag: false,
     };
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
+    },
   },
   methods: {
     /**
@@ -114,5 +146,16 @@ export default defineComponent({
   &__item {
     padding: 1%;
   }
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 </style>

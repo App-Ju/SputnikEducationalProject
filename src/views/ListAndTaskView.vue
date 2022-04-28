@@ -12,7 +12,14 @@
   </modal-window>
   <draggable-component
     class="lists"
+    :component-data="{
+      tag: 'div',
+      type: 'transition-group',
+    }"
     v-model="listsStore.currentBoardLists"
+    v-bind="dragOptions"
+    @start="drag = true"
+    @end="drag = false"
     item-key="id"
   >
     <template #item="{ element }">
@@ -24,7 +31,14 @@
         @delete-list="deleteList(element.id)"
       >
         <draggable-component
+          :component-data="{
+            tag: 'div',
+            type: 'transition-group',
+          }"
           :list="element.tasks"
+          v-bind="dragOptions"
+          @start="drag = true"
+          @end="drag = false"
           item-key="id"
           :group="{ name: 'element' }"
         >
@@ -58,6 +72,7 @@ import draggableComponent from "vuedraggable";
 
 export default defineComponent({
   name: "TasksView",
+  display: "Transitions",
   components: {
     ListItem,
     ListItemCreation,
@@ -77,9 +92,19 @@ export default defineComponent({
       taskId: NaN,
       taskName: "",
       taskDescription: "",
+      drag: false,
     };
   },
-  computed: {},
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost",
+      };
+    },
+  },
   methods: {
     /**
      * Добавляет список в стейт lists
@@ -191,5 +216,16 @@ export default defineComponent({
   &:hover {
     background: #e8e5e1;
   }
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 </style>
