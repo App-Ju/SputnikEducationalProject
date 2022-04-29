@@ -168,10 +168,10 @@ export default defineComponent({
      * @param id - id выбранной задачи
      */
     showModal(id: number): void {
-      const taskData = this.listsStore.openTask(id);
+      const taskData = this.listsStore.getCurrentTaskData(id);
       this.taskId = id;
-      this.taskName = taskData[0];
-      this.taskDescription = taskData[1];
+      this.taskName = taskData.name;
+      this.taskDescription = taskData.description;
       (this.$refs.modal as InstanceType<typeof ModalWindow>).show = true;
     },
   },

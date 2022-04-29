@@ -8,7 +8,36 @@ export const useListsStore = defineStore({
     lists: [] as List[],
     currentBoardLists: [] as List[],
   }),
-  getters: {},
+  getters: {
+    /**
+     * Находит список в котором находится выбранная задача по id задачи
+     * @return number - возвращает индекс списка
+     */
+    getListIndexByTaskId(lists) {
+      return (taskId: number) =>
+        this.lists.findIndex((el) => el.tasks.find((el) => el.id === taskId));
+    },
+    /**
+     * Находит выбранную задачу по id, возвращает
+     * @return number - возвращает индекс задачи
+     */
+    getCurrentTaskIndex(lists) {
+      return (taskId: number) =>
+        this.lists[this.getListIndexByTaskId(taskId)].tasks.findIndex(
+          (el) => el.id === taskId
+        );
+    },
+    /**
+     * Получает данные выбанной задачи
+     * @return {} - возвращает объект с выбранной задачей
+     */
+    getCurrentTaskData(lists) {
+      return (taskId: number) =>
+        this.lists[this.getListIndexByTaskId(taskId)].tasks[
+          this.getCurrentTaskIndex(taskId)
+        ];
+    },
+  },
   actions: {
     /**
      * Добавляет в стейт lists инстанс класса List
@@ -53,28 +82,19 @@ export const useListsStore = defineStore({
      * @param description - подробное описание редактируемой задачи
      */
     editTask(id: number, name: string, description: string): void {
-      const index = this.findTask(id);
-      this.lists[index[0]].tasks[index[1]].name = name;
-      this.lists[index[0]].tasks[index[1]].description = description;
+      const listIndex = this.getListIndexByTaskId(id);
+      const taskIndex = this.getCurrentTaskIndex(id);
+      this.lists[listIndex].tasks[taskIndex].name = name;
+      this.lists[listIndex].tasks[taskIndex].description = description;
     },
     /**
      * Удаляет задачу из массива списка tasks задачу
      * @param id - удаляемой задачи
      */
     deleteTask(id: number): void {
-      const index = this.findTask(id);
-      this.lists[index[0]].tasks.splice(index[1], 1);
-    },
-    /**
-     * Открывает модальное окно с данными задачи
-     * @param id - id задачи для которой открывается модальное окно
-     * @return {Array<string>} - возвращает массив строк, содержащий имя и подробное описание задачи
-     */
-    openTask(id: number): Array<string> {
-      const index = this.findTask(id);
-      const taskName = this.lists[index[0]].tasks[index[1]].name;
-      const taskDescription = this.lists[index[0]].tasks[index[1]].description;
-      return [taskName, taskDescription];
+      const listIndex = this.getListIndexByTaskId(id);
+      const taskIndex = this.getCurrentTaskIndex(id);
+      this.lists[listIndex].tasks.splice(taskIndex, 1);
     },
     /**
      * Формирует из спсиков стйет currentBoardLists для выбранной доски
@@ -84,20 +104,6 @@ export const useListsStore = defineStore({
       this.currentBoardLists = this.lists.filter(
         (el) => el.boardId === boardId
       );
-    },
-    /**
-     * Находит индексы списка и задачи по id списка
-     * @param id - id выбранного списка
-     * @return {Array<number>} - возвращает массив из чисел, содержащий индекс списка и индекс выбранной задачи
-     */
-    findTask(id: number): Array<number> {
-      const listIndex = this.lists.findIndex((el) =>
-        el.tasks.find((el) => el.id === id)
-      );
-      const taskIndex = this.lists[listIndex].tasks.findIndex(
-        (el) => el.id === id
-      );
-      return [listIndex, taskIndex];
     },
   },
 });
