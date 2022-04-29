@@ -47,7 +47,7 @@
               class="lists__task"
               :name="element.name"
               :id="element.id"
-              @click.self="showModal(element.id)"
+              @show-modal="showModal"
               @add-task="addTask"
               @delete-task="listsStore.deleteTask(element.id)"
             />

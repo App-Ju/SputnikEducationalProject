@@ -1,5 +1,5 @@
 <template>
-  <div class="task">
+  <div class="task" @click="$emit('showModal', id)">
     <div class="task__name" v-if="!showInput">
       {{ taskName }}
     </div>
@@ -10,6 +10,7 @@
       v-model="taskName"
       @keydown.enter="switchShowInput"
       @keydown.esc="cancelEditingTask"
+      onclick="event.stopPropagation()"
     />
 
     <div class="task__icons">
@@ -45,6 +46,7 @@ export default defineComponent({
     name: { type: String, require: true },
     id: { type: Number, require: true },
   },
+  emits: ["showModal", "editTask", "deleteTask"],
   data() {
     return {
       taskName: this.name,

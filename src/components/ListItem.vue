@@ -58,6 +58,7 @@ export default defineComponent({
     id: { type: Number, require: true },
     boardId: { type: Number, require: true },
   },
+  emits: ["editList", "deleteList"],
   data() {
     return {
       listName: this.name,
