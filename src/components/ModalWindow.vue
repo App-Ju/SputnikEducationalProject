@@ -2,7 +2,9 @@
   <div v-show="show" class="modal__cloak" @click.self="closeModal">
     <div class="modal">
       <div class="modal__close" @click="closeModal">&#10006;</div>
+      <h1 class="modal__title">Задача</h1>
       <slot name="name" />
+      <h2 class="modal__title">Описание задачи</h2>
       <slot name="description" />
       <slot name="footer" />
     </div>
@@ -43,6 +45,10 @@ export default defineComponent({
   background: rgba(0, 0, 0, 0.39);
 }
 
+h1 {
+  font-size: 1.5rem;
+}
+
 .modal {
   display: flex;
   flex-direction: column;
@@ -55,6 +61,10 @@ export default defineComponent({
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  &__title {
+    margin-bottom: 10px;
+  }
 
   &__close {
     border-radius: 50%;
