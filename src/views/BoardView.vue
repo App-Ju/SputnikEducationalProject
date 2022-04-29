@@ -24,10 +24,10 @@
         :name="element.name"
         :id="element.id"
         :is-favorite="element.isFavorite"
+        @edit-board="editBoard"
         @delete-board="boardsStore.deleteBoard"
         @add-favorite="boardsStore.addFavoriteBoard"
         @open-list="openList"
-        @edit-board="editBoard"
       />
     </template>
   </draggable-component>
@@ -55,14 +55,18 @@
         :name="element.name"
         :id="element.id"
         :is-favorite="element.isFavorite"
+        @edit-board="editBoard"
         @delete-board="boardsStore.deleteBoard"
         @add-favorite="boardsStore.addFavoriteBoard"
         @open-list="openList"
-        @edit-board="editBoard"
       />
     </template>
     <template #footer>
-      <board-item-creation v-model="boardName" @add-board="addBoard" />
+      <board-item-creation
+        v-model="boardName"
+        @add-board="addBoard"
+        @cancel-input="cancelInput"
+      />
     </template>
   </draggable-component>
 </template>
@@ -111,6 +115,12 @@ export default defineComponent({
         this.boardsStore.addBoardName(Date.now(), this.boardName);
         this.boardName = "";
       }
+    },
+    /**
+     * Отменяет ввод имени для новой доски
+     */
+    cancelInput() {
+      this.boardName = "";
     },
     /**
      * Изменяет имя выбранной доски

@@ -18,6 +18,7 @@
         v-model="taskName"
         placeholder="Заголовок задачи"
         @keydown.enter="addTask"
+        @keydown.esc="cancelInput"
       />
       <BootstrapIcon
         class="list__edit"
@@ -95,6 +96,12 @@ export default defineComponent({
         this.listsStore.addTaskName(this.id!, Date.now(), this.taskName);
         this.taskName = "";
       }
+    },
+    /**
+     * Отменяет ввод нового имени для задачи
+     */
+    cancelInput(): void {
+      this.taskName = "";
     },
   },
 });

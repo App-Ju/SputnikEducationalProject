@@ -6,6 +6,7 @@
       @input="$emit('update:modelValue', $event.target.value)"
       placeholder="Заголовок списка"
       @keydown.enter="$emit('addList')"
+      @keydown.esc="$emit('cancelInput')"
     />
     <button class="form__button" @click="$emit('addList')">Создать</button>
   </div>
@@ -17,7 +18,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "ListItemCreation",
   props: ["modelValue"],
-  emits: ["update:modelValue", "addList"],
+  emits: ["update:modelValue", "addList", "cancelInput"],
 });
 </script>
 

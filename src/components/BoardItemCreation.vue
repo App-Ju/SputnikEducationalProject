@@ -7,6 +7,7 @@
       @input="$emit('update:modelValue', $event.target.value)"
       placeholder="Заголовок доски"
       @keydown.enter="$emit('addBoard')"
+      @keydown.esc="$emit('cancelInput')"
     />
     <button class="form__button" @click="$emit('addBoard')">Создать</button>
   </div>
@@ -18,7 +19,7 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "BoardItemCreation",
   props: ["modelValue"],
-  emits: ["update:modelValue", "addBoard"],
+  emits: ["update:modelValue", "addBoard", "cancelInput"],
 });
 </script>
 

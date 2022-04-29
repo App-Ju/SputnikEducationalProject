@@ -56,7 +56,11 @@
       </list-item>
     </template>
     <template #footer>
-      <list-item-creation v-model="listName" @add-list="addList" />
+      <list-item-creation
+        v-model="listName"
+        @add-list="addList"
+        @cancel-input="cancelInput"
+      />
     </template>
   </draggable-component>
 </template>
@@ -123,6 +127,12 @@ export default defineComponent({
      */
     editList(id: number, listName: string): void {
       this.listsStore.editListName(id, listName);
+    },
+    /**
+     * Отменяет ввод нового имени списка
+     */
+    cancelInput() {
+      this.listName = "";
     },
     /**
      * Удаляет список из стейта lists
