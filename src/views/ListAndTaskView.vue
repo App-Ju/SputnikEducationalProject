@@ -154,7 +154,7 @@ export default defineComponent({
     /**
      * Изменяет данные выбранной задачи
      */
-    editTask() {
+    editTask(): void {
       this.listsStore.editTask(
         this.taskId,
         this.taskName,
@@ -167,7 +167,7 @@ export default defineComponent({
      * Отвечат за отображение модального окна
      * @param id - id выбранной задачи
      */
-    showModal(id: number) {
+    showModal(id: number): void {
       const taskData = this.listsStore.openTask(id);
       this.taskId = id;
       this.taskName = taskData[0];

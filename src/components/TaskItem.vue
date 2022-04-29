@@ -10,7 +10,7 @@
       v-model="taskName"
       @keydown.enter="switchShowInput"
       @keydown.esc="cancelEditingTask"
-      onclick="event.stopPropagation()"
+      @click.stop
     />
 
     <div class="task__icons">
