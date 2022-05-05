@@ -75,7 +75,7 @@ import ModalWindow from "@/components/ModalWindow.vue";
 import draggableComponent from "vuedraggable";
 
 export default defineComponent({
-  name: "TasksView",
+  name: "ListAndTaskView",
   display: "Transitions",
   components: {
     ListItem,
