@@ -68,6 +68,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useListsStore } from "@/store/lists";
+import Task from "@/models/Task.model";
 import ListItem from "@/components/ListItem.vue";
 import ListItemCreation from "@/components/ListItemCreation.vue";
 import TaskItem from "@/components/TaskItem.vue";
@@ -172,7 +173,7 @@ export default defineComponent({
      * @param id - id выбранной задачи
      */
     showModal(id: number): void {
-      const taskData = this.listsStore.getCurrentTaskData(id);
+      const taskData: Task = this.listsStore.getCurrentTaskData(id);
       this.taskId = id;
       this.taskName = taskData.name;
       this.taskDescription = taskData.description;

@@ -49,7 +49,9 @@ export const useListsStore = defineStore({
       this.currentBoardLists = this.lists.filter(
         (el) => el.boardId === boardId
       );
-      const index = this.lists.findIndex((el) => el.boardId === boardId);
+      const index: number = this.lists.findIndex(
+        (el) => el.boardId === boardId
+      );
       this.lists.splice(index, this.currentBoardLists.length);
     },
     /**
@@ -74,7 +76,9 @@ export const useListsStore = defineStore({
      * @param name - новое имя редактируемого списка
      */
     editListName(id: number, name: string): void {
-      const index = this.currentBoardLists.findIndex((el) => el.id === id);
+      const index: number = this.currentBoardLists.findIndex(
+        (el) => el.id === id
+      );
       this.currentBoardLists[index].name = name;
     },
     /**
@@ -82,7 +86,9 @@ export const useListsStore = defineStore({
      * @param id - id удаляемого списка
      */
     deleteList(id: number): void {
-      const index = this.currentBoardLists.findIndex((el) => el.id === id);
+      const index: number = this.currentBoardLists.findIndex(
+        (el) => el.id === id
+      );
       this.currentBoardLists.splice(index, 1);
     },
     /**
@@ -92,7 +98,9 @@ export const useListsStore = defineStore({
      * @param name - имя добавляемой задачи
      */
     addTaskName(listId: number, id: number, name: string): void {
-      const index = this.currentBoardLists.findIndex((el) => el.id === listId);
+      const index: number = this.currentBoardLists.findIndex(
+        (el) => el.id === listId
+      );
       this.currentBoardLists[index].tasks.push(new Task(id, name, ""));
     },
     /**
@@ -102,8 +110,8 @@ export const useListsStore = defineStore({
      * @param description - подробное описание редактируемой задачи
      */
     editTask(id: number, name: string, description: string): void {
-      const listIndex = this.getListIndexByTaskId(id);
-      const taskIndex = this.getCurrentTaskIndex(id);
+      const listIndex: number = this.getListIndexByTaskId(id);
+      const taskIndex: number = this.getCurrentTaskIndex(id);
       this.currentBoardLists[listIndex].tasks[taskIndex].name = name;
       this.currentBoardLists[listIndex].tasks[taskIndex].description =
         description;
@@ -113,8 +121,8 @@ export const useListsStore = defineStore({
      * @param id - удаляемой задачи
      */
     deleteTask(id: number): void {
-      const listIndex = this.getListIndexByTaskId(id);
-      const taskIndex = this.getCurrentTaskIndex(id);
+      const listIndex: number = this.getListIndexByTaskId(id);
+      const taskIndex: number = this.getCurrentTaskIndex(id);
       this.currentBoardLists[listIndex].tasks.splice(taskIndex, 1);
     },
   },

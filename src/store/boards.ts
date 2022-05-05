@@ -21,8 +21,10 @@ export const useBoardsStore = defineStore({
      * @param id - id удаляемой доски
      */
     deleteBoard(id: number): void {
-      const index = this.boards.findIndex((el) => el.id === id);
-      const indexFav = this.isFavoriteBoards.findIndex((el) => el.id === id);
+      const index: number = this.boards.findIndex((el) => el.id === id);
+      const indexFav: number = this.isFavoriteBoards.findIndex(
+        (el) => el.id === id
+      );
       this.boards.splice(index, 1);
       if (indexFav !== -1) this.isFavoriteBoards.splice(indexFav, 1);
     },
@@ -32,7 +34,7 @@ export const useBoardsStore = defineStore({
      * @param name - новое имя редактируемой доски
      */
     editBoardName(id: number, name: string): void {
-      const index = this.boards.findIndex((el) => el.id === id);
+      const index: number = this.boards.findIndex((el) => el.id === id);
       this.boards[index].name = name;
     },
     /**
@@ -41,11 +43,13 @@ export const useBoardsStore = defineStore({
      */
     addFavoriteBoard(id: number): void {
       if (!this.isFavoriteBoards.find((el) => el.id === id)) {
-        const index = this.boards.findIndex((el) => el.id === id);
+        const index: number = this.boards.findIndex((el) => el.id === id);
         this.boards[index].isFavorite = true;
         this.isFavoriteBoards.push(this.boards[index]);
       } else {
-        const index = this.isFavoriteBoards.findIndex((el) => el.id === id);
+        const index: number = this.isFavoriteBoards.findIndex(
+          (el) => el.id === id
+        );
         this.isFavoriteBoards[index].isFavorite = false;
         this.isFavoriteBoards.splice(index, 1);
       }
