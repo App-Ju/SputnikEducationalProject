@@ -53,7 +53,7 @@ export const useListsStore = defineStore({
       this.lists.splice(index, this.currentBoardLists.length);
     },
     /**
-     * Пермещает стейт отдельной доски в общий
+     * Перемещает стейт отдельной доски в общий
      */
     concatListsState(): void {
       this.lists = this.lists.concat(this.currentBoardLists);
