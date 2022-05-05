@@ -16,14 +16,11 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ModalWindow",
-  components: {},
-  props: {},
   data() {
     return {
       show: false,
     };
   },
-  computed: {},
   methods: {
     /**
      * Закрывает модальное окно

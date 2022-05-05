@@ -53,7 +53,6 @@ export default defineComponent({
       showInput: false,
     };
   },
-  computed: {},
   methods: {
     /**
      * Отображает либо скрывает ввод для редактирования имени задачи

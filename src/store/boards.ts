@@ -7,7 +7,6 @@ export const useBoardsStore = defineStore({
     boards: [] as Board[],
     isFavoriteBoards: [] as Board[],
   }),
-  getters: {},
   actions: {
     /**
      * Добавляет в стейт boards инстанс класса Board

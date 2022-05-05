@@ -109,11 +109,17 @@ export default defineComponent({
       };
     },
   },
+  created() {
+    this.listsStore.cutListsState(this.boardId);
+  },
+  beforeUnmount() {
+    this.listsStore.concatListsState();
+  },
   methods: {
     /**
      * Добавляет список в стейт currentBoardLists
      */
-    addList() {
+    addList(): void {
       if (this.listName.trim()) {
         this.listsStore.addListName(this.boardId!, Date.now(), this.listName);
         this.listName = "";
@@ -130,14 +136,14 @@ export default defineComponent({
     /**
      * Отменяет ввод нового имени списка
      */
-    cancelInput() {
+    cancelInput(): void {
       this.listName = "";
     },
     /**
      * Удаляет список из стейта currentBoardLists
      * @param id - id удаляемого списка
      */
-    deleteList(id: number) {
+    deleteList(id: number): void {
       this.listsStore.deleteList(id);
     },
     /**
@@ -172,12 +178,6 @@ export default defineComponent({
       this.taskDescription = taskData.description;
       (this.$refs.modal as InstanceType<typeof ModalWindow>).show = true;
     },
-  },
-  created() {
-    this.listsStore.cutListsState(this.boardId);
-  },
-  beforeUnmount() {
-    this.listsStore.concatListsState();
   },
 });
 </script>

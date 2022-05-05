@@ -110,7 +110,7 @@ export default defineComponent({
     /**
      * Добавляет новую доску в стейт boards
      */
-    addBoard() {
+    addBoard(): void {
       if (this.boardName.trim()) {
         this.boardsStore.addBoardName(Date.now(), this.boardName);
         this.boardName = "";
@@ -119,7 +119,7 @@ export default defineComponent({
     /**
      * Отменяет ввод имени для новой доски
      */
-    cancelInput() {
+    cancelInput(): void {
       this.boardName = "";
     },
     /**
