@@ -13,40 +13,60 @@ export const useListsStore = defineStore({
      * Находит список в котором находится выбранная задача по id задачи
      * @return number - возвращает индекс списка
      */
-    getListIndexByTaskId(lists) {
+    getListIndexByTaskId(state) {
       return (taskId: number) =>
-        this.lists.findIndex((el) => el.tasks.find((el) => el.id === taskId));
+        state.currentBoardLists.findIndex((el) =>
+          el.tasks.find((el) => el.id === taskId)
+        );
     },
     /**
-     * Находит выбранную задачу по id, возвращает
+     * Находит выбранную задачу по id
      * @return number - возвращает индекс задачи
      */
-    getCurrentTaskIndex(lists) {
+    getCurrentTaskIndex(state) {
       return (taskId: number) =>
-        this.lists[this.getListIndexByTaskId(taskId)].tasks.findIndex(
-          (el) => el.id === taskId
-        );
+        state.currentBoardLists[
+          this.getListIndexByTaskId(taskId)
+        ].tasks.findIndex((el) => el.id === taskId);
     },
     /**
      * Получает данные выбанной задачи
      * @return {} - возвращает объект с выбранной задачей
      */
-    getCurrentTaskData(lists) {
+    getCurrentTaskData(state) {
       return (taskId: number) =>
-        this.lists[this.getListIndexByTaskId(taskId)].tasks[
+        state.currentBoardLists[this.getListIndexByTaskId(taskId)].tasks[
           this.getCurrentTaskIndex(taskId)
         ];
     },
   },
   actions: {
     /**
-     * Добавляет в стейт lists инстанс класса List
+     * Перемещает списки для выбранной доски в отдельный стейт
+     * @param boardId - id выбранной доски
+     */
+    cutListsState(boardId: number): void {
+      this.currentBoardLists = this.lists.filter(
+        (el) => el.boardId === boardId
+      );
+      const index = this.lists.findIndex((el) => el.boardId === boardId);
+      this.lists.splice(index, this.currentBoardLists.length);
+    },
+    /**
+     * Пермещает стейт отдельной доски в общий
+     */
+    concatListsState(): void {
+      this.lists = this.lists.concat(this.currentBoardLists);
+      this.currentBoardLists = [];
+    },
+    /**
+     * Добавляет в стейт currentBoardLists инстанс класса List
      * @param boardId - id доски к которой пивязан список
      * @param id - id добавляемого списка задач
      * @param name - имя добавляемого списка задач
      */
     addListName(boardId: number, id: number, name: string): void {
-      this.lists.push(new List(boardId, id, name, []));
+      this.currentBoardLists.push(new List(boardId, id, name, []));
     },
     /**
      * Изменяет параметр name списка задач
@@ -54,16 +74,16 @@ export const useListsStore = defineStore({
      * @param name - новое имя редактируемого списка
      */
     editListName(id: number, name: string): void {
-      const index = this.lists.findIndex((el) => el.id === id);
-      this.lists[index].name = name;
+      const index = this.currentBoardLists.findIndex((el) => el.id === id);
+      this.currentBoardLists[index].name = name;
     },
     /**
-     * Удаяет список из стейта lists
+     * Удаяет список из стейта currentBoardLists
      * @param id - id удаляемого списка
      */
     deleteList(id: number): void {
-      const index = this.lists.findIndex((el) => el.id === id);
-      this.lists.splice(index, 1);
+      const index = this.currentBoardLists.findIndex((el) => el.id === id);
+      this.currentBoardLists.splice(index, 1);
     },
     /**
      * Добавляет в массив списка tasks иснтанс класса Task
@@ -72,8 +92,8 @@ export const useListsStore = defineStore({
      * @param name - имя добавляемой задачи
      */
     addTaskName(listId: number, id: number, name: string): void {
-      const index = this.lists.findIndex((el) => el.id === listId);
-      this.lists[index].tasks.push(new Task(id, name, ""));
+      const index = this.currentBoardLists.findIndex((el) => el.id === listId);
+      this.currentBoardLists[index].tasks.push(new Task(id, name, ""));
     },
     /**
      * Изменяет данные задачи, имя и подробное описание
@@ -84,8 +104,9 @@ export const useListsStore = defineStore({
     editTask(id: number, name: string, description: string): void {
       const listIndex = this.getListIndexByTaskId(id);
       const taskIndex = this.getCurrentTaskIndex(id);
-      this.lists[listIndex].tasks[taskIndex].name = name;
-      this.lists[listIndex].tasks[taskIndex].description = description;
+      this.currentBoardLists[listIndex].tasks[taskIndex].name = name;
+      this.currentBoardLists[listIndex].tasks[taskIndex].description =
+        description;
     },
     /**
      * Удаляет задачу из массива списка tasks задачу
@@ -94,16 +115,7 @@ export const useListsStore = defineStore({
     deleteTask(id: number): void {
       const listIndex = this.getListIndexByTaskId(id);
       const taskIndex = this.getCurrentTaskIndex(id);
-      this.lists[listIndex].tasks.splice(taskIndex, 1);
-    },
-    /**
-     * Формирует из спсиков стйет currentBoardLists для выбранной доски
-     * @param boardId - id доски для которой формируется стейт
-     */
-    showCurrentBoardStore(boardId: number): void {
-      this.currentBoardLists = this.lists.filter(
-        (el) => el.boardId === boardId
-      );
+      this.currentBoardLists[listIndex].tasks.splice(taskIndex, 1);
     },
   },
 });

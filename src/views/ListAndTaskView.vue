@@ -111,13 +111,12 @@ export default defineComponent({
   },
   methods: {
     /**
-     * Добавляет список в стейт lists
+     * Добавляет список в стейт currentBoardLists
      */
     addList() {
       if (this.listName.trim()) {
         this.listsStore.addListName(this.boardId!, Date.now(), this.listName);
         this.listName = "";
-        this.listsStore.showCurrentBoardStore(this.boardId);
       }
     },
     /**
@@ -135,12 +134,11 @@ export default defineComponent({
       this.listName = "";
     },
     /**
-     * Удаляет список из стейта lists
+     * Удаляет список из стейта currentBoardLists
      * @param id - id удаляемого списка
      */
     deleteList(id: number) {
       this.listsStore.deleteList(id);
-      this.listsStore.showCurrentBoardStore(this.boardId);
     },
     /**
      * Добавляет новую задачу в список
@@ -176,7 +174,10 @@ export default defineComponent({
     },
   },
   created() {
-    this.listsStore.showCurrentBoardStore(this.boardId);
+    this.listsStore.cutListsState(this.boardId);
+  },
+  beforeUnmount() {
+    this.listsStore.concatListsState();
   },
 });
 </script>
