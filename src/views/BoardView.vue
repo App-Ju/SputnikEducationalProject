@@ -142,6 +142,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/css/variables";
+
 .boards {
   width: 80%;
   margin: 0 auto;
@@ -166,6 +168,6 @@ export default defineComponent({
 }
 .ghost {
   opacity: 0.5;
-  background: #c8ebfb;
+  background: $background-color-page;
 }
 </style>

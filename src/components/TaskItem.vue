@@ -82,6 +82,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "../assets/css/mixins";
+@import "../assets/css/variables";
 
 .task {
   display: flex;
@@ -108,11 +109,11 @@ export default defineComponent({
   }
 
   &__edit {
-    @include items-icon-btn(16px, 16px, #155de3);
+    @include items-icon-btn(16px, 16px, $btn-edit-color);
   }
 
   &__delete {
-    @include items-icon-btn(16px, 26px, #e31515);
+    @include items-icon-btn(16px, 26px, $btn-delete-color);
   }
 }
 </style>

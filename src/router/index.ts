@@ -16,7 +16,6 @@ const routes: Array<RouteRecordRaw> = [
     beforeEnter: (to, from) => {
       const boardsStore = useBoardsStore();
       if (!boardsStore.boards.length) {
-        console.log(boardsStore.boards.length);
         return { name: "BoardsView" };
       }
     },

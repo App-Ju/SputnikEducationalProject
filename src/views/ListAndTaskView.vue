@@ -184,6 +184,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/css/variables";
+
 .lists {
   width: 80%;
   margin: 0 auto;
@@ -198,7 +200,7 @@ export default defineComponent({
 .modal__name {
   width: 80%;
   padding: 3px 6px;
-  border: 1px solid rgba(44, 62, 80, 0.38);
+  border: 1px solid $border-color;
   border-radius: 3px;
   align-self: center;
   margin-bottom: 20px;
@@ -208,7 +210,7 @@ export default defineComponent({
 .modal__description {
   width: 80%;
   padding: 3px 6px;
-  border: 1px solid rgba(44, 62, 80, 0.38);
+  border: 1px solid $border-color;
   border-radius: 3px;
   align-self: center;
   margin-bottom: 20px;
@@ -221,7 +223,7 @@ export default defineComponent({
   align-self: center;
   width: 30%;
   height: 20px;
-  border: 1px solid rgba(44, 62, 80, 0.38);
+  border: 1px solid $border-color;
   border-radius: 3px;
   cursor: pointer;
 
@@ -238,6 +240,6 @@ export default defineComponent({
 }
 .ghost {
   opacity: 0.5;
-  background: #c8ebfb;
+  background: $background-color-page;
 }
 </style>

@@ -1,3 +1,5 @@
+@import "variables";
+
 @mixin items-wrapper($size) {
   display: flex;
   flex-direction: column;
@@ -6,13 +8,13 @@
   height: $size;
   margin: 1%;
   padding: 11px;
-  background: #e3ded9;
+  background: $background-color-item;
 }
 
 @mixin items-input($size) {
   width: $size;
   padding: 3px 6px;
-  border: 1px solid rgba(44, 62, 80, 0.38);
+  border: 1px solid $border-color;
   border-radius: 3px;
 
   &:hover {
@@ -27,7 +29,7 @@
 @mixin items-tbn {
   width: 50%;
   height: 20px;
-  border: 1px solid rgba(44, 62, 80, 0.38);
+  border: 1px solid $border-color;
   border-radius: 3px;
 
   &:hover {

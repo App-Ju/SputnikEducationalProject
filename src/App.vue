@@ -8,6 +8,7 @@
 <style lang="scss">
 @import "assets/css/normalize.css";
 @import "assets/css/mixins";
+@import "assets/css/variables";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

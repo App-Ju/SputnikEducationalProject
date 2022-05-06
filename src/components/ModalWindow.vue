@@ -33,6 +33,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/css/variables";
+
 .modal__cloak {
   position: absolute;
   top: 0;
@@ -49,7 +51,7 @@ h1 {
 .modal {
   display: flex;
   flex-direction: column;
-  background: #e3ded9;
+  background: $background-color-item;
   border-radius: 8px;
   padding: 30px 15px;
   min-width: 420px;
@@ -65,7 +67,7 @@ h1 {
 
   &__close {
     border-radius: 50%;
-    border: 1px solid rgba(44, 62, 80, 0.38);
+    border: 1px solid $border-color;
     display: flex;
     align-items: center;
     justify-content: center;
