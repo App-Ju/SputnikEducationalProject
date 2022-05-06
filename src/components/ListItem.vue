@@ -8,6 +8,7 @@
       class="list__name-input"
       v-else
       v-model="listName"
+      @click.stop
       @keydown.enter="switchShowInput"
       @keydown.esc="cancelEditingList"
     />
@@ -65,6 +66,11 @@ export default defineComponent({
       taskName: "",
       showInput: false,
     };
+  },
+  mounted() {
+    document.body.addEventListener("click", () => {
+      this.showInput = false;
+    });
   },
   methods: {
     /**

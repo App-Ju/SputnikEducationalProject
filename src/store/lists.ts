@@ -79,6 +79,8 @@ export const useListsStore = defineStore({
       const index: number = this.currentBoardLists.findIndex(
         (el) => el.id === id
       );
+      console.log(index);
+      console.log(this.currentBoardLists[index].name);
       this.currentBoardLists[index].name = name;
     },
     /**
@@ -102,6 +104,16 @@ export const useListsStore = defineStore({
         (el) => el.id === listId
       );
       this.currentBoardLists[index].tasks.push(new Task(id, name, ""));
+    },
+    /**
+     * Изменяеь имя задачи
+     * @param id - id редактируемой задачи
+     * @param name - имя редактируемой задачи
+     */
+    editTaskName(id: number, name: string) {
+      const listIndex: number = this.getListIndexByTaskId(id);
+      const taskIndex: number = this.getCurrentTaskIndex(id);
+      this.currentBoardLists[listIndex].tasks[taskIndex].name = name;
     },
     /**
      * Изменяет данные задачи, имя и подробное описание

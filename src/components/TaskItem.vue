@@ -53,6 +53,11 @@ export default defineComponent({
       showInput: false,
     };
   },
+  mounted() {
+    document.body.addEventListener("click", () => {
+      this.showInput = false;
+    });
+  },
   methods: {
     /**
      * Отображает либо скрывает ввод для редактирования имени задачи
@@ -65,7 +70,7 @@ export default defineComponent({
       } else if (this.showInput && this.taskName === this.name) {
         this.showInput = false;
       } else {
-        this.$emit("editTask", this.id, this.taskName);
+        this.$emit("editTask", this.id, this.taskName, "");
         this.showInput = false;
       }
     },

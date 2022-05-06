@@ -13,7 +13,7 @@
       @click.stop
     />
 
-    <div class="board__icons">
+    <div class="board__icons" @click.stop>
       <BootstrapIcon
         v-if="!isFavorite"
         class="board__favorite"
@@ -65,6 +65,11 @@ export default defineComponent({
       boardName: this.name,
       showInput: false,
     };
+  },
+  mounted() {
+    document.body.addEventListener("click", () => {
+      this.showInput = false;
+    });
   },
   methods: {
     /**

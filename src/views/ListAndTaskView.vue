@@ -27,7 +27,7 @@
         class="lists__item"
         :name="element.name"
         :id="element.id"
-        @dit-list="editList"
+        @edit-list="editList"
         @delete-list="deleteList(element.id)"
       >
         <draggable-component
@@ -49,6 +49,7 @@
               :id="element.id"
               @show-modal="showModal"
               @add-task="addTask"
+              @edit-task="listsStore.editTaskName"
               @delete-task="listsStore.deleteTask(element.id)"
             />
           </template>
