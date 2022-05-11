@@ -1,12 +1,13 @@
 <template>
   <div class="list">
-    <div class="list__name" v-if="!showInput">
+    <div class="list__name" v-show="!showInput">
       {{ listName }}
     </div>
     <input
       type="text"
       class="list__name-input"
-      v-else
+      ref="input"
+      v-show="showInput"
       v-model="listName"
       @click.stop
       @keydown.enter="switchShowInput"
@@ -79,6 +80,7 @@ export default defineComponent({
     switchShowInput(): void {
       if (!this.showInput) {
         this.showInput = true;
+        this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
       } else if (this.showInput && this.listName === this.name) {
         this.showInput = false;
       } else {

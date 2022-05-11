@@ -167,7 +167,6 @@ export default defineComponent({
         this.taskDescription
       );
       (this.$refs.modal as InstanceType<typeof ModalWindow>).show = false;
-      this.$forceUpdate;
     },
     /**
      * Отвечат за отображение модального окна

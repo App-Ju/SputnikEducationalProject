@@ -1,12 +1,13 @@
 <template>
   <div class="board" @click="$emit('openList', id)">
-    <div class="board__name" v-if="!showInput">
+    <div class="board__name" v-show="!showInput">
       {{ boardName }}
     </div>
     <input
       type="text"
       class="board__name-input"
-      v-else
+      ref="input"
+      v-show="showInput"
       v-model="boardName"
       @keydown.enter="$emit('editBoard', id, boardName)"
       @keydown.esc="cancelEditingBoard"
@@ -78,6 +79,7 @@ export default defineComponent({
     switchShowInput(): void {
       if (!this.showInput) {
         this.showInput = true;
+        this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
       } else if (this.showInput && this.boardName === this.name) {
         this.showInput = false;
       } else {

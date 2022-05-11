@@ -1,12 +1,13 @@
 <template>
   <div class="task" @click="$emit('showModal', id)">
-    <div class="task__name" v-if="!showInput">
+    <div class="task__name" v-show="!showInput">
       {{ taskName }}
     </div>
     <input
       type="text"
       class="task__name-input"
-      v-else
+      ref="input"
+      v-show="showInput"
       v-model="taskName"
       @keydown.enter="switchShowInput"
       @keydown.esc="cancelEditingTask"
@@ -67,6 +68,7 @@ export default defineComponent({
     switchShowInput(id: number, taskName: string): void {
       if (!this.showInput) {
         this.showInput = true;
+        this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
       } else if (this.showInput && this.taskName === this.name) {
         this.showInput = false;
       } else {
