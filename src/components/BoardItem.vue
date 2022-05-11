@@ -16,16 +16,9 @@
 
     <div class="board__icons" @click.stop>
       <BootstrapIcon
-        v-if="!isFavorite"
         class="board__favorite"
         @click.stop="$emit('addFavorite', id)"
-        icon="star"
-      />
-      <BootstrapIcon
-        v-else
-        class="board__favorite"
-        @click.stop="$emit('addFavorite', id)"
-        icon="star-fill"
+        :icon="favoriteIcon"
       />
       <BootstrapIcon
         class="board__edit"
@@ -66,6 +59,11 @@ export default defineComponent({
       boardName: this.name,
       showInput: false,
     };
+  },
+  computed: {
+    favoriteIcon() {
+      return this.isFavorite ? "star-fill" : "star";
+    },
   },
   mounted() {
     document.body.addEventListener("click", () => {
