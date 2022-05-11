@@ -9,7 +9,7 @@
       ref="input"
       v-show="showInput"
       v-model="taskName"
-      @keydown.enter="switchShowInput"
+      @keydown.enter="switchShowInput()"
       @keydown.esc="cancelEditingTask"
       @click.stop
     />
@@ -17,12 +17,18 @@
     <div class="task__icons">
       <BootstrapIcon
         class="task__edit"
-        @click.stop="switchShowInput"
+        @click.stop="
+          switchShowInput();
+          $emit('closeTaskInput', id);
+        "
         icon="pencil"
       />
       <BootstrapIcon
         class="task__delete"
-        @click.stop="$emit('deleteTask', id)"
+        @click.stop="
+          $emit('deleteTask', id);
+          $emit('closeTaskInput', id);
+        "
         icon="trash3"
       />
     </div>
@@ -46,34 +52,27 @@ export default defineComponent({
   props: {
     name: { type: String, require: true },
     id: { type: Number, require: true },
+    showInput: { type: Boolean, require: true },
   },
-  emits: ["showModal", "editTask", "deleteTask"],
+  emits: ["showModal", "editTask", "deleteTask", "closeTaskInput"],
   data() {
     return {
       taskName: this.name,
-      showInput: false,
     };
-  },
-  mounted() {
-    document.body.addEventListener("click", () => {
-      this.showInput = false;
-    });
   },
   methods: {
     /**
      * Отображает либо скрывает ввод для редактирования имени задачи
-     * @param id - id выбранной задачи
-     * @param taskName - имя выбранной задачи
      */
-    switchShowInput(id: number, taskName: string): void {
+    switchShowInput(): void {
       if (!this.showInput) {
-        this.showInput = true;
+        this.listsStore.showTaskInput(this.id!);
         this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
       } else if (this.showInput && this.taskName === this.name) {
-        this.showInput = false;
+        this.listsStore.hideTaskInput(this.id!);
       } else {
         this.$emit("editTask", this.id, this.taskName, "");
-        this.showInput = false;
+        this.listsStore.hideTaskInput(this.id!);
       }
     },
     /**
@@ -81,7 +80,7 @@ export default defineComponent({
      */
     cancelEditingTask(): void {
       this.taskName = this.name;
-      this.showInput = false;
+      this.listsStore.hideTaskInput(this.id!);
     },
   },
 });

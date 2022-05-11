@@ -9,25 +9,33 @@
       ref="input"
       v-show="showInput"
       v-model="boardName"
-      @keydown.enter="$emit('editBoard', id, boardName)"
+      @keydown.enter="switchShowInput"
       @keydown.esc="cancelEditingBoard"
       @click.stop
     />
-
     <div class="board__icons" @click.stop>
       <BootstrapIcon
         class="board__favorite"
-        @click.stop="$emit('addFavorite', id)"
+        @click.stop="
+          $emit('addFavorite', id);
+          $emit('closeInput', id);
+        "
         :icon="favoriteIcon"
       />
       <BootstrapIcon
         class="board__edit"
-        @click.stop="switchShowInput"
+        @click.stop="
+          switchShowInput();
+          $emit('closeInput', id);
+        "
         icon="pencil"
       />
       <BootstrapIcon
         class="board__delete"
-        @click.stop="$emit('deleteBoard', id)"
+        @click.stop="
+          $emit('deleteBoard', id);
+          $emit('closeInput', id);
+        "
         icon="trash3"
       />
     </div>
@@ -52,12 +60,12 @@ export default defineComponent({
     name: { type: String, require: true },
     id: { type: Number, require: true },
     isFavorite: { type: Boolean, require: true },
+    showInput: { type: Boolean, require: true },
   },
-  emits: ["deleteBoard", "addFavorite", "openList", "editBoard"],
+  emits: ["deleteBoard", "addFavorite", "openList", "editBoard", "closeInput"],
   data() {
     return {
       boardName: this.name,
-      showInput: false,
     };
   },
   computed: {
@@ -65,24 +73,19 @@ export default defineComponent({
       return this.isFavorite ? "star-fill" : "star";
     },
   },
-  mounted() {
-    document.body.addEventListener("click", () => {
-      this.showInput = false;
-    });
-  },
   methods: {
     /**
      * Отображает либо скрывает ввод для редактирования имени доски
      */
     switchShowInput(): void {
       if (!this.showInput) {
-        this.showInput = true;
+        this.boardsStore.showInput(this.id!);
         this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
       } else if (this.showInput && this.boardName === this.name) {
-        this.showInput = false;
+        this.boardsStore.hideInput(this.id!);
       } else {
         this.$emit("editBoard", this.id, this.boardName);
-        this.showInput = false;
+        this.boardsStore.hideInput(this.id!);
       }
     },
     /**
@@ -90,7 +93,7 @@ export default defineComponent({
      */
     cancelEditingBoard(): void {
       this.boardName = this.name;
-      this.showInput = false;
+      this.boardsStore.hideInput(this.id!);
     },
   },
 });

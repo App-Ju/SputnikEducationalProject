@@ -68,7 +68,7 @@ export const useListsStore = defineStore({
      * @param name - имя добавляемого списка задач
      */
     addListName(boardId: number, id: number, name: string): void {
-      this.currentBoardLists.push(new List(boardId, id, name, []));
+      this.currentBoardLists.push(new List(boardId, id, name, [], false));
     },
     /**
      * Изменяет параметр name списка задач
@@ -79,8 +79,6 @@ export const useListsStore = defineStore({
       const index: number = this.currentBoardLists.findIndex(
         (el) => el.id === id
       );
-      console.log(index);
-      console.log(this.currentBoardLists[index].name);
       this.currentBoardLists[index].name = name;
     },
     /**
@@ -94,6 +92,26 @@ export const useListsStore = defineStore({
       this.currentBoardLists.splice(index, 1);
     },
     /**
+     * Делает видимым инпут для изменения имени списка
+     * @param id - id выбранного списка
+     */
+    showListInput(id: number): void {
+      const index: number = this.currentBoardLists.findIndex(
+        (el) => el.id === id
+      );
+      this.currentBoardLists[index].isShowInput = true;
+    },
+    /**
+     * Скрывает инпут для изменения имени списка
+     * @param id - id выбранного списка
+     */
+    hideListInput(id: number): void {
+      const index: number = this.currentBoardLists.findIndex(
+        (el) => el.id === id
+      );
+      this.currentBoardLists[index].isShowInput = false;
+    },
+    /**
      * Добавляет в массив списка tasks иснтанс класса Task
      * @param listId - id списка, которому добавляется задача
      * @param id - id добавляемой задачи
@@ -103,7 +121,7 @@ export const useListsStore = defineStore({
       const index: number = this.currentBoardLists.findIndex(
         (el) => el.id === listId
       );
-      this.currentBoardLists[index].tasks.push(new Task(id, name, ""));
+      this.currentBoardLists[index].tasks.push(new Task(id, name, "", false));
     },
     /**
      * Изменяеь имя задачи
@@ -136,6 +154,24 @@ export const useListsStore = defineStore({
       const listIndex: number = this.getListIndexByTaskId(id);
       const taskIndex: number = this.getCurrentTaskIndex(id);
       this.currentBoardLists[listIndex].tasks.splice(taskIndex, 1);
+    },
+    /**
+     * Делает видимым инпут для изменения имени задачи
+     * @param id - id выбранной задачи
+     */
+    showTaskInput(id: number): void {
+      const listIndex: number = this.getListIndexByTaskId(id);
+      const taskIndex: number = this.getCurrentTaskIndex(id);
+      this.currentBoardLists[listIndex].tasks[taskIndex].isShowInput = true;
+    },
+    /**
+     * Скрывает инпут для изменения имени задачи
+     * @param id - id выбранной задачи
+     */
+    hideTaskInput(id: number): void {
+      const listIndex: number = this.getListIndexByTaskId(id);
+      const taskIndex: number = this.getCurrentTaskIndex(id);
+      this.currentBoardLists[listIndex].tasks[taskIndex].isShowInput = false;
     },
   },
 });

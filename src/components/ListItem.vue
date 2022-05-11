@@ -24,17 +24,26 @@
       />
       <BootstrapIcon
         class="list__edit"
-        @click.stop="addTask"
+        @click.stop="
+          addTask();
+          $emit('closeListInput', id);
+        "
         icon="plus-square"
       />
       <BootstrapIcon
         class="list__edit"
-        @click.stop="switchShowInput"
+        @click.stop="
+          switchShowInput();
+          $emit('closeListInput', id);
+        "
         icon="pencil"
       />
       <BootstrapIcon
         class="list__delete"
-        @click.stop="$emit('deleteList', id)"
+        @click.stop="
+          $emit('deleteList', id);
+          $emit('closeListInput', id);
+        "
         icon="trash3"
       />
     </div>
@@ -59,19 +68,14 @@ export default defineComponent({
     name: { type: String, require: true },
     id: { type: Number, require: true },
     boardId: { type: Number, require: true },
+    showInput: { type: Boolean, require: true },
   },
-  emits: ["editList", "deleteList"],
+  emits: ["editList", "deleteList", "closeListInput"],
   data() {
     return {
       listName: this.name,
       taskName: "",
-      showInput: false,
     };
-  },
-  mounted() {
-    document.body.addEventListener("click", () => {
-      this.showInput = false;
-    });
   },
   methods: {
     /**
@@ -79,13 +83,13 @@ export default defineComponent({
      */
     switchShowInput(): void {
       if (!this.showInput) {
-        this.showInput = true;
+        this.listsStore.showListInput(this.id!);
         this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
       } else if (this.showInput && this.listName === this.name) {
-        this.showInput = false;
+        this.listsStore.hideListInput(this.id!);
       } else {
         this.$emit("editList", this.id, this.listName);
-        this.showInput = false;
+        this.listsStore.hideListInput(this.id!);
       }
     },
     /**
@@ -93,7 +97,7 @@ export default defineComponent({
      */
     cancelEditingList(): void {
       this.listName = this.name;
-      this.showInput = false;
+      this.listsStore.hideListInput(this.id!);
     },
     /**
      * Добавляет новую задачу в список

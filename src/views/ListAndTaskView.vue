@@ -1,69 +1,75 @@
 <template>
-  <modal-window ref="modal">
-    <template v-slot:name>
-      <input type="text" class="modal__name" v-model="taskName" />
-    </template>
-    <template v-slot:description>
-      <textarea class="modal__description" v-model="taskDescription" />
-    </template>
-    <template v-slot:footer>
-      <button class="modal__footer-button" @click="editTask">Ok</button>
-    </template>
-  </modal-window>
-  <draggable-component
-    class="lists"
-    :component-data="{
-      tag: 'div',
-      type: 'transition-group',
-    }"
-    v-model="listsStore.currentBoardLists"
-    v-bind="dragOptions"
-    @start="drag = true"
-    @end="drag = false"
-    item-key="id"
-  >
-    <template #item="{ element }">
-      <list-item
-        class="lists__item"
-        :name="element.name"
-        :id="element.id"
-        @edit-list="editList"
-        @delete-list="deleteList(element.id)"
-      >
-        <draggable-component
-          :component-data="{
-            tag: 'div',
-            type: 'transition-group',
-          }"
-          :list="element.tasks"
-          v-bind="dragOptions"
-          @start="drag = true"
-          @end="drag = false"
-          item-key="id"
-          :group="{ name: 'element' }"
+  <div class="wrapper" @click="closeAllInput">
+    <modal-window ref="modal">
+      <template v-slot:name>
+        <input type="text" class="modal__name" v-model="taskName" />
+      </template>
+      <template v-slot:description>
+        <textarea class="modal__description" v-model="taskDescription" />
+      </template>
+      <template v-slot:footer>
+        <button class="modal__footer-button" @click="editTask">Ok</button>
+      </template>
+    </modal-window>
+    <draggable-component
+      class="lists"
+      :component-data="{
+        tag: 'div',
+        type: 'transition-group',
+      }"
+      v-model="listsStore.currentBoardLists"
+      :="dragOptions"
+      @start="drag = true"
+      @end="drag = false"
+      item-key="id"
+    >
+      <template #item="{ element }">
+        <list-item
+          class="lists__item"
+          :name="element.name"
+          :id="element.id"
+          :show-input="element.isShowInput"
+          @edit-list="editList"
+          @delete-list="deleteList(element.id)"
+          @close-list-input="closeAllInput"
         >
-          <template #item="{ element }">
-            <task-item
-              class="lists__task"
-              :name="element.name"
-              :id="element.id"
-              @show-modal="showModal"
-              @add-task="addTask"
-              @edit-task="listsStore.editTaskName"
-              @delete-task="listsStore.deleteTask(element.id)"
-            />
-          </template>
-        </draggable-component>
-      </list-item>
-    </template>
-    <template #footer>
-      <list-item-creation
-        v-model="listName"
-        @add-list="addList"
-        @cancel-input="cancelInput"
-      />
-    </template>
-  </draggable-component>
+          <draggable-component
+            :component-data="{
+              tag: 'div',
+              type: 'transition-group',
+            }"
+            :list="element.tasks"
+            :="dragOptions"
+            @start="drag = true"
+            @end="drag = false"
+            item-key="id"
+            :group="{ name: 'element' }"
+          >
+            <template #item="{ element }">
+              <task-item
+                class="lists__task"
+                :name="element.name"
+                :id="element.id"
+                :show-input="element.isShowInput"
+                @show-modal="showModal"
+                @add-task="addTask"
+                @edit-task="listsStore.editTaskName"
+                @delete-task="listsStore.deleteTask(element.id)"
+                @close-task-input="closeAllInput"
+              />
+            </template>
+          </draggable-component>
+        </list-item>
+      </template>
+      <template #footer>
+        <list-item-creation
+          v-model="listName"
+          @add-list="addList"
+          @cancel-input="cancelInput"
+        />
+      </template>
+    </draggable-component>
+  </div>
 </template>
 
 <script lang="ts">
@@ -149,6 +155,20 @@ export default defineComponent({
       this.listsStore.deleteList(id);
     },
     /**
+     * Скрывает все инпуты для изменения имени списков и задач , кроме быбранного элемента
+     * @param id - id выбранного элемента (задачи или спсисок)
+     */
+    closeAllInput(id: number): void {
+      this.listsStore.currentBoardLists.forEach((el) =>
+        el.id !== id ? (el.isShowInput = false) : ""
+      );
+      this.listsStore.currentBoardLists.forEach((list) =>
+        list.tasks.forEach((task) =>
+          task.id !== id ? (task.isShowInput = false) : ""
+        )
+      );
+    },
+    /**
      * Добавляет новую задачу в список
      */
     addTask(id: number): void {
@@ -185,6 +205,11 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import "../assets/css/variables";
+
+.wrapper {
+  width: 100vw;
+  height: calc(100vh - 74px);
+}
 
 .lists {
   width: 80%;

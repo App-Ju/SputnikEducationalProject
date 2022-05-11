@@ -1,74 +1,80 @@
 <template>
-  <draggable-component
-    class="boards"
-    :component-data="{
-      tag: 'div',
-      type: 'transition-group',
-      name: !drag ? 'flip-list' : null,
-      appear: true,
-    }"
-    v-show="boardsStore.isFavoriteBoards.length"
-    v-model="boardsStore.isFavoriteBoards"
-    v-bind="dragOptions"
-    @start="drag = true"
-    @end="drag = false"
-    item-key="id"
-    :group="{ name: 'favorite' }"
-  >
-    <template #header>
-      <h1 class="boards__title">Favorite</h1>
-    </template>
-    <template #item="{ element }">
-      <board-item
-        class="boards__item"
-        :name="element.name"
-        :id="element.id"
-        :is-favorite="element.isFavorite"
-        @edit-board="editBoard"
-        @delete-board="boardsStore.deleteBoard"
-        @add-favorite="boardsStore.addFavoriteBoard"
-        @open-list="openList"
-      />
-    </template>
-  </draggable-component>
-  <draggable-component
-    class="boards"
-    :component-data="{
-      tag: 'div',
-      type: 'transition-group',
-      name: !drag ? 'flip-list' : null,
-      appear: true,
-    }"
-    v-model="boardsStore.boards"
-    v-bind="dragOptions"
-    @start="drag = true"
-    @end="drag = false"
-    item-key="id"
-    :group="{ name: 'main' }"
-  >
-    <template #header>
-      <h1 class="boards__title">My Boards</h1>
-    </template>
-    <template #item="{ element }">
-      <board-item
-        class="boards__item"
-        :name="element.name"
-        :id="element.id"
-        :is-favorite="element.isFavorite"
-        @edit-board="editBoard"
-        @delete-board="boardsStore.deleteBoard"
-        @add-favorite="boardsStore.addFavoriteBoard"
-        @open-list="openList"
-      />
-    </template>
-    <template #footer>
-      <board-item-creation
-        v-model="boardName"
-        @add-board="addBoard"
-        @cancel-input="cancelInput"
-      />
-    </template>
-  </draggable-component>
+  <div class="wrapper" @click="closeAllInput">
+    <draggable-component
+      class="boards"
+      :component-data="{
+        tag: 'div',
+        type: 'transition-group',
+        name: !drag ? 'flip-list' : null,
+        appear: true,
+      }"
+      v-show="boardsStore.isFavoriteBoards.length"
+      v-model="boardsStore.isFavoriteBoards"
+      :="dragOptions"
+      @start="drag = true"
+      @end="drag = false"
+      item-key="id"
+      :group="{ name: 'favorite' }"
+    >
+      <template #header>
+        <h1 class="boards__title">Favorite</h1>
+      </template>
+      <template #item="{ element }">
+        <board-item
+          class="boards__item"
+          :name="element.name"
+          :id="element.id"
+          :is-favorite="element.isFavorite"
+          :show-input="element.isShowInput"
+          @edit-board="editBoard"
+          @delete-board="boardsStore.deleteBoard"
+          @add-favorite="boardsStore.addFavoriteBoard"
+          @open-list="openList"
+          @close-input="closeAllInput"
+        />
+      </template>
+    </draggable-component>
+    <draggable-component
+      class="boards"
+      :component-data="{
+        tag: 'div',
+        type: 'transition-group',
+        name: !drag ? 'flip-list' : null,
+        appear: true,
+      }"
+      v-model="boardsStore.boards"
+      :="dragOptions"
+      @start="drag = true"
+      @end="drag = false"
+      item-key="id"
+      :group="{ name: 'main' }"
+    >
+      <template #header>
+        <h1 class="boards__title">My Boards</h1>
+      </template>
+      <template #item="{ element }">
+        <board-item
+          class="boards__item"
+          :name="element.name"
+          :id="element.id"
+          :is-favorite="element.isFavorite"
+          :show-input="element.isShowInput"
+          @edit-board="editBoard"
+          @delete-board="boardsStore.deleteBoard"
+          @add-favorite="boardsStore.addFavoriteBoard"
+          @open-list="openList"
+          @close-input="closeAllInput"
+        />
+      </template>
+      <template #footer>
+        <board-item-creation
+          v-model="boardName"
+          @add-board="addBoard"
+          @cancel-input="cancelInput"
+        />
+      </template>
+    </draggable-component>
+  </div>
 </template>
 
 <script lang="ts">
@@ -137,12 +143,26 @@ export default defineComponent({
     openList(id: number): void {
       this.$router.push(`/tasks/${id}`);
     },
+    /**
+     * Скрывает все инпуты для изменения имени доски, кроме быбранного
+     * @param id - id выбранной доски
+     */
+    closeAllInput(id: number) {
+      this.boardsStore.boards.forEach((el) =>
+        el.id !== id ? (el.isShowInput = false) : ""
+      );
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
 @import "../assets/css/variables";
+
+.wrapper {
+  width: 100vw;
+  height: calc(100vh - 74px);
+}
 
 .boards {
   width: 80%;

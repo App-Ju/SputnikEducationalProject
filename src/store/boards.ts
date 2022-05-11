@@ -14,7 +14,7 @@ export const useBoardsStore = defineStore({
      * @param name - имя добавляемой доски
      */
     addBoardName(id: number, name: string): void {
-      this.boards.push(new Board(id, name, false));
+      this.boards.push(new Board(id, name, false, false));
     },
     /**
      * Удаляет доску из стейта boards и из isFavoriteBoards(при наличии), находит индекс досок по id
@@ -53,6 +53,22 @@ export const useBoardsStore = defineStore({
         this.isFavoriteBoards[index].isFavorite = false;
         this.isFavoriteBoards.splice(index, 1);
       }
+    },
+    /**
+     * Делает видимым инпут для изменения имени доски
+     * @param id - id выбранной доски
+     */
+    showInput(id: number): void {
+      const index: number = this.boards.findIndex((el) => el.id === id);
+      this.boards[index].isShowInput = true;
+    },
+    /**
+     * Скрывает инпут для изменения имени доски
+     * @param id - id выбранной доски
+     */
+    hideInput(id: number): void {
+      const index: number = this.boards.findIndex((el) => el.id === id);
+      this.boards[index].isShowInput = false;
     },
   },
 });
