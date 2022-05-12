@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" @click="closeAllInput">
+  <div class="wrapper" @click="closeAllInput" :key="componentKey">
     <draggable-component
       class="boards"
       :component-data="{
@@ -100,6 +100,7 @@ export default defineComponent({
     return {
       boardName: "",
       drag: false,
+      componentKey: 0,
     };
   },
   computed: {
@@ -135,6 +136,7 @@ export default defineComponent({
      */
     editBoard(id: number, boardName: string): void {
       this.boardsStore.editBoardName(id, boardName);
+      this.forceRerender();
     },
     /**
      * Открывает страницу со списками задач для выбранной доски
@@ -151,6 +153,12 @@ export default defineComponent({
       this.boardsStore.boards.forEach((el) =>
         el.id !== id ? (el.isShowInput = false) : ""
       );
+    },
+    /**
+     * Отрисовывает компонент заново, используется при изменении имени доски
+     */
+    forceRerender() {
+      this.componentKey += 1;
     },
   },
 });
