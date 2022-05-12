@@ -17,6 +17,8 @@
     <div class="list__icons">
       <input
         class="list__task-name-input"
+        ref="addTaskInput"
+        v-show="addTaskInput"
         v-model="taskName"
         placeholder="Заголовок задачи"
         @keydown.enter="addTask"
@@ -75,6 +77,7 @@ export default defineComponent({
     return {
       listName: this.name,
       taskName: "",
+      addTaskInput: false,
     };
   },
   methods: {
@@ -103,10 +106,16 @@ export default defineComponent({
      * Добавляет новую задачу в список
      */
     addTask(): void {
-      if (this.taskName.trim()) {
+      if (!this.addTaskInput) {
+        this.addTaskInput = true;
+        this.$nextTick(() => (this.$refs.addTaskInput as HTMLElement).focus());
+      } else if (this.taskName.trim()) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.listsStore.addTaskName(this.id!, Date.now(), this.taskName);
         this.taskName = "";
+        this.addTaskInput = false;
+      } else {
+        this.addTaskInput = false;
       }
     },
     /**
@@ -114,6 +123,7 @@ export default defineComponent({
      */
     cancelInput(): void {
       this.taskName = "";
+      this.addTaskInput = false;
     },
   },
 });
