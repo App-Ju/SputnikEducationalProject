@@ -1,5 +1,5 @@
 <template>
-  <div class="board" @click="$emit('openList', id)">
+  <div class="board" @click="$emit('openList', id)" v-click-away="onClickAway">
     <div class="board__name" v-show="!showInput">
       {{ boardName }}
     </div>
@@ -46,6 +46,7 @@
 import { defineComponent } from "vue";
 import { useBoardsStore } from "@/store/boards";
 import BootstrapIcon from "@dvuckovic/vue3-bootstrap-icons";
+import { directive } from "vue3-click-away";
 
 export default defineComponent({
   name: "BoardItem",
@@ -60,12 +61,13 @@ export default defineComponent({
     name: { type: String, require: true },
     id: { type: Number, require: true },
     isFavorite: { type: Boolean, require: true },
-    showInput: { type: Boolean, require: true },
+    // showInput: { type: Boolean, require: true },
   },
   emits: ["deleteBoard", "addFavorite", "openList", "editBoard", "closeInput"],
   data() {
     return {
       boardName: this.name,
+      showInput: false,
     };
   },
   computed: {
@@ -79,13 +81,13 @@ export default defineComponent({
      */
     switchShowInput(): void {
       if (!this.showInput) {
-        this.boardsStore.showInput(this.id!);
+        this.showInput = true;
         this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
       } else if (this.showInput && this.boardName === this.name) {
-        this.boardsStore.hideInput(this.id!);
+        this.showInput = false;
       } else {
         this.$emit("editBoard", this.id, this.boardName);
-        this.boardsStore.hideInput(this.id!);
+        this.showInput = false;
       }
     },
     /**
@@ -93,8 +95,14 @@ export default defineComponent({
      */
     cancelEditingBoard(): void {
       this.boardName = this.name;
-      this.boardsStore.hideInput(this.id!);
+      this.showInput = false;
     },
+    onClickAway(event) {
+      this.showInput = false;
+    },
+  },
+  directives: {
+    ClickAway: directive,
   },
 });
 </script>

@@ -5,7 +5,7 @@ export const useBoardsStore = defineStore({
   id: "boards",
   state: () => ({
     boards: [] as Board[],
-    isFavoriteBoards: [] as Board[],
+    favoriteBoards: [] as Board[],
   }),
   actions: {
     /**
@@ -17,16 +17,16 @@ export const useBoardsStore = defineStore({
       this.boards.push(new Board(id, name, false, false));
     },
     /**
-     * Удаляет доску из стейта boards и из isFavoriteBoards(при наличии), находит индекс досок по id
+     * Удаляет доску из стейта boards и из favoriteBoards(при наличии), находит индекс досок по id
      * @param id - id удаляемой доски
      */
     deleteBoard(id: number): void {
       const index: number = this.boards.findIndex((el) => el.id === id);
-      const indexFav: number = this.isFavoriteBoards.findIndex(
+      const indexFav: number = this.favoriteBoards.findIndex(
         (el) => el.id === id
       );
       this.boards.splice(index, 1);
-      if (indexFav !== -1) this.isFavoriteBoards.splice(indexFav, 1);
+      if (indexFav !== -1) this.favoriteBoards.splice(indexFav, 1);
     },
     /**
      * Меняет параметр name доски, находит индекс доски по id
@@ -38,37 +38,21 @@ export const useBoardsStore = defineStore({
       this.boards[index].name = name;
     },
     /**
-     * Добавляет доску в стейт isFavoriteBoards либо удаляет из него
+     * Добавляет доску в стейт favoriteBoards либо удаляет из него
      * @param id - id редактируемой доски
      */
     addFavoriteBoard(id: number): void {
-      if (!this.isFavoriteBoards.find((el) => el.id === id)) {
+      if (!this.favoriteBoards.find((el) => el.id === id)) {
         const index: number = this.boards.findIndex((el) => el.id === id);
         this.boards[index].isFavorite = true;
-        this.isFavoriteBoards.push(this.boards[index]);
+        this.favoriteBoards.push(this.boards[index]);
       } else {
-        const index: number = this.isFavoriteBoards.findIndex(
+        const index: number = this.favoriteBoards.findIndex(
           (el) => el.id === id
         );
-        this.isFavoriteBoards[index].isFavorite = false;
-        this.isFavoriteBoards.splice(index, 1);
+        this.favoriteBoards[index].isFavorite = false;
+        this.favoriteBoards.splice(index, 1);
       }
-    },
-    /**
-     * Делает видимым инпут для изменения имени доски
-     * @param id - id выбранной доски
-     */
-    showInput(id: number): void {
-      const index: number = this.boards.findIndex((el) => el.id === id);
-      this.boards[index].isShowInput = true;
-    },
-    /**
-     * Скрывает инпут для изменения имени доски
-     * @param id - id выбранной доски
-     */
-    hideInput(id: number): void {
-      const index: number = this.boards.findIndex((el) => el.id === id);
-      this.boards[index].isShowInput = false;
     },
   },
 });
