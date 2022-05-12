@@ -89,10 +89,10 @@ export default defineComponent({
         this.listsStore.showListInput(this.id!);
         this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
       } else if (this.showInput && this.listName === this.name) {
-        this.listsStore.hideListInput(this.id!);
+        this.listsStore.showListInput(this.id!);
       } else {
         this.$emit("editList", this.id, this.listName);
-        this.listsStore.hideListInput(this.id!);
+        this.listsStore.showListInput(this.id!);
       }
     },
     /**
@@ -100,7 +100,7 @@ export default defineComponent({
      */
     cancelEditingList(): void {
       this.listName = this.name;
-      this.listsStore.hideListInput(this.id!);
+      this.listsStore.showListInput(this.id!);
     },
     /**
      * Добавляет новую задачу в список

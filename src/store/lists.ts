@@ -92,24 +92,15 @@ export const useListsStore = defineStore({
       this.currentBoardLists.splice(index, 1);
     },
     /**
-     * Делает видимым инпут для изменения имени списка
+     * Отображает или скрывает инпут для изменения имени списка
      * @param id - id выбранного списка
      */
     showListInput(id: number): void {
       const index: number = this.currentBoardLists.findIndex(
         (el) => el.id === id
       );
-      this.currentBoardLists[index].isShowInput = true;
-    },
-    /**
-     * Скрывает инпут для изменения имени списка
-     * @param id - id выбранного списка
-     */
-    hideListInput(id: number): void {
-      const index: number = this.currentBoardLists.findIndex(
-        (el) => el.id === id
-      );
-      this.currentBoardLists[index].isShowInput = false;
+      this.currentBoardLists[index].isShowInput =
+        !this.currentBoardLists[index].isShowInput;
     },
     /**
      * Добавляет в массив списка tasks иснтанс класса Task
@@ -156,22 +147,14 @@ export const useListsStore = defineStore({
       this.currentBoardLists[listIndex].tasks.splice(taskIndex, 1);
     },
     /**
-     * Делает видимым инпут для изменения имени задачи
+     * Отображает или скрывает инпут для изменения имени задачи
      * @param id - id выбранной задачи
      */
     showTaskInput(id: number): void {
       const listIndex: number = this.getListIndexByTaskId(id);
       const taskIndex: number = this.getCurrentTaskIndex(id);
-      this.currentBoardLists[listIndex].tasks[taskIndex].isShowInput = true;
-    },
-    /**
-     * Скрывает инпут для изменения имени задачи
-     * @param id - id выбранной задачи
-     */
-    hideTaskInput(id: number): void {
-      const listIndex: number = this.getListIndexByTaskId(id);
-      const taskIndex: number = this.getCurrentTaskIndex(id);
-      this.currentBoardLists[listIndex].tasks[taskIndex].isShowInput = false;
+      this.currentBoardLists[listIndex].tasks[taskIndex].isShowInput =
+        !this.currentBoardLists[listIndex].tasks[taskIndex].isShowInput;
     },
   },
 });

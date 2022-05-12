@@ -69,10 +69,10 @@ export default defineComponent({
         this.listsStore.showTaskInput(this.id!);
         this.$nextTick(() => (this.$refs.input as HTMLElement).focus());
       } else if (this.showInput && this.taskName === this.name) {
-        this.listsStore.hideTaskInput(this.id!);
+        this.listsStore.showTaskInput(this.id!);
       } else {
         this.$emit("editTask", this.id, this.taskName, "");
-        this.listsStore.hideTaskInput(this.id!);
+        this.listsStore.showTaskInput(this.id!);
       }
     },
     /**
@@ -80,7 +80,7 @@ export default defineComponent({
      */
     cancelEditingTask(): void {
       this.taskName = this.name;
-      this.listsStore.hideTaskInput(this.id!);
+      this.listsStore.showTaskInput(this.id!);
     },
   },
 });
