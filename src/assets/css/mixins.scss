@@ -19,6 +19,7 @@
 
   &:hover {
     border: 1px solid #e31515;
+    cursor: pointer;
   }
 
   &:focus {
@@ -34,16 +35,19 @@
 
   &:hover {
     background: #e8e5e1;
+    cursor: pointer;
   }
 }
 
 @mixin items-icon-btn($h-size, $w-size, $hover-color) {
+  padding: 4px;
   height: $h-size;
   width: $w-size;
   fill: #000;
 
   &:hover {
     fill: $hover-color;
+    cursor: pointer;
   }
 
 }

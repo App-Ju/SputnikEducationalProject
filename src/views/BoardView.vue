@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" @click="closeAllInput" :key="componentKey">
+  <div class="wrapper">
     <draggable-component
       class="boards"
       :component-data="{
@@ -8,8 +8,8 @@
         name: !drag ? 'flip-list' : null,
         appear: true,
       }"
-      v-show="boardsStore.isFavoriteBoards.length"
-      v-model="boardsStore.isFavoriteBoards"
+      v-show="boardsStore.favoriteBoards.length"
+      v-model="boardsStore.favoriteBoards"
       :="dragOptions"
       @start="drag = true"
       @end="drag = false"
@@ -25,12 +25,10 @@
           :name="element.name"
           :id="element.id"
           :is-favorite="element.isFavorite"
-          :show-input="element.isShowInput"
           @edit-board="editBoard"
           @delete-board="boardsStore.deleteBoard"
           @add-favorite="boardsStore.addFavoriteBoard"
           @open-list="openList"
-          @close-input="closeAllInput"
         />
       </template>
     </draggable-component>
@@ -58,12 +56,10 @@
           :name="element.name"
           :id="element.id"
           :is-favorite="element.isFavorite"
-          :show-input="element.isShowInput"
           @edit-board="editBoard"
           @delete-board="boardsStore.deleteBoard"
           @add-favorite="boardsStore.addFavoriteBoard"
           @open-list="openList"
-          @close-input="closeAllInput"
         />
       </template>
       <template #footer>
@@ -136,7 +132,6 @@ export default defineComponent({
      */
     editBoard(id: number, boardName: string): void {
       this.boardsStore.editBoardName(id, boardName);
-      this.forceRerender();
     },
     /**
      * Открывает страницу со списками задач для выбранной доски
@@ -144,21 +139,6 @@ export default defineComponent({
      */
     openList(id: number): void {
       this.$router.push(`/tasks/${id}`);
-    },
-    /**
-     * Скрывает все инпуты для изменения имени доски, кроме быбранного
-     * @param id - id выбранной доски
-     */
-    closeAllInput(id: number) {
-      this.boardsStore.boards.forEach((el) =>
-        el.id !== id ? (el.isShowInput = false) : ""
-      );
-    },
-    /**
-     * Отрисовывает компонент заново, используется при изменении имени доски
-     */
-    forceRerender() {
-      this.componentKey += 1;
     },
   },
 });

@@ -35,7 +35,11 @@ export const useBoardsStore = defineStore({
      */
     editBoardName(id: number, name: string): void {
       const index: number = this.boards.findIndex((el) => el.id === id);
+      const indexFav: number = this.favoriteBoards.findIndex(
+        (el) => el.id === id
+      );
       this.boards[index].name = name;
+      this.favoriteBoards[indexFav].name = name;
     },
     /**
      * Добавляет доску в стейт favoriteBoards либо удаляет из него
@@ -45,13 +49,14 @@ export const useBoardsStore = defineStore({
       if (!this.favoriteBoards.find((el) => el.id === id)) {
         const index: number = this.boards.findIndex((el) => el.id === id);
         this.boards[index].isFavorite = true;
-        this.favoriteBoards.push(this.boards[index]);
+        this.favoriteBoards.push(Object.assign({}, this.boards[index]));
       } else {
-        const index: number = this.favoriteBoards.findIndex(
+        const index: number = this.boards.findIndex((el) => el.id === id);
+        const indexFav: number = this.favoriteBoards.findIndex(
           (el) => el.id === id
         );
-        this.favoriteBoards[index].isFavorite = false;
-        this.favoriteBoards.splice(index, 1);
+        this.boards[index].isFavorite = false;
+        this.favoriteBoards.splice(indexFav, 1);
       }
     },
   },

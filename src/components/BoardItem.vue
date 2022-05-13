@@ -13,29 +13,20 @@
       @keydown.esc="cancelEditingBoard"
       @click.stop
     />
-    <div class="board__icons" @click.stop>
+    <div class="board__icons">
       <BootstrapIcon
         class="board__favorite"
-        @click.stop="
-          $emit('addFavorite', id);
-          $emit('closeInput', id);
-        "
+        @click.stop="$emit('addFavorite', id)"
         :icon="favoriteIcon"
       />
       <BootstrapIcon
         class="board__edit"
-        @click.stop="
-          switchShowInput();
-          $emit('closeInput', id);
-        "
+        @click.stop="switchShowInput()"
         icon="pencil"
       />
       <BootstrapIcon
         class="board__delete"
-        @click.stop="
-          $emit('deleteBoard', id);
-          $emit('closeInput', id);
-        "
+        @click.stop="$emit('deleteBoard', id)"
         icon="trash3"
       />
     </div>
@@ -50,6 +41,9 @@ import { directive } from "vue3-click-away";
 
 export default defineComponent({
   name: "BoardItem",
+  directives: {
+    ClickAway: directive,
+  },
   components: {
     BootstrapIcon,
   },
@@ -61,9 +55,8 @@ export default defineComponent({
     name: { type: String, require: true },
     id: { type: Number, require: true },
     isFavorite: { type: Boolean, require: true },
-    // showInput: { type: Boolean, require: true },
   },
-  emits: ["deleteBoard", "addFavorite", "openList", "editBoard", "closeInput"],
+  emits: ["deleteBoard", "addFavorite", "openList", "editBoard"],
   data() {
     return {
       boardName: this.name,
@@ -71,6 +64,9 @@ export default defineComponent({
     };
   },
   computed: {
+    /**
+     * Вычисляет имя для иконки "избранное"
+     */
     favoriteIcon() {
       return this.isFavorite ? "star-fill" : "star";
     },
@@ -91,18 +87,23 @@ export default defineComponent({
       }
     },
     /**
-     * Отменяет редактирование доски
+     * Отменяет редактирование имени доски
      */
     cancelEditingBoard(): void {
       this.boardName = this.name;
       this.showInput = false;
     },
-    onClickAway(event) {
+    /**
+     * При клике за пределами компонента скрывает ввод
+     */
+    onClickAway(): void {
       this.showInput = false;
     },
   },
-  directives: {
-    ClickAway: directive,
+  watch: {
+    name() {
+      this.boardName = this.name;
+    },
   },
 });
 </script>
@@ -125,15 +126,15 @@ export default defineComponent({
   }
 
   &__favorite {
-    @include items-icon-btn(20px, 30px, #e5aa2a);
+    @include items-icon-btn(28px, 30px, #e5aa2a);
   }
 
   &__edit {
-    @include items-icon-btn(20px, 30px, $btn-edit-color);
+    @include items-icon-btn(28px, 30px, $btn-edit-color);
   }
 
   &__delete {
-    @include items-icon-btn(20px, 20px, $btn-delete-color);
+    @include items-icon-btn(28px, 30px, $btn-delete-color);
   }
 }
 </style>

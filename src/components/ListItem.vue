@@ -156,11 +156,11 @@ export default defineComponent({
   }
 
   &__edit {
-    @include items-icon-btn(20px, 30px, $btn-edit-color);
+    @include items-icon-btn(26px, 28px, $btn-edit-color);
   }
 
   &__delete {
-    @include items-icon-btn(20px, 20px, $btn-delete-color);
+    @include items-icon-btn(26px, 28px, $btn-delete-color);
   }
 }
 </style>
